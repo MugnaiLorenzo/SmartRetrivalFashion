@@ -1,0 +1,16 @@
+.content {
+    padding-top: 90px;
+}
+
+.container-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title{
+    padding-top: 1.6rem;
+    font-size: var(--size-title);
+    font-family: var(--font-title);
+    text-transform: uppercase;
+}

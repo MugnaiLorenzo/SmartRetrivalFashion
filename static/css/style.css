@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin');
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans');
+@import url('nav.css');
+@import url('result.css');
+
+:root{
+    /*Colori*/
+    --primary-color: #F3336A;
+    --nav-primary-color: #2F4858;
+    --nav-secondary-color: #355279;
+    --nav-dropdown-color: #5B5593;
+    --nav-text-color: #FFFFFF;
+    --nav-text-select-color: #C93F8D;
+    /*Font*/
+    --font-nav-tile: 'Montserrat', sans-serif;
+    --font-nav-li: 'Open Sans', sans-serif;
+    --font-title: 'Libre Franklin', Helvetica, sans-serif;
+    /*Size*/
+    --size-nav: 1.6rem;
+    --size-title: 3.2rem;
+}

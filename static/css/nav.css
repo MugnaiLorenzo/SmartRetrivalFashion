@@ -1,0 +1,125 @@
+
+
+.navbar-header .icon {
+    width: 80px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.nav-title{
+    padding-left: 5px;
+    font-family: var(--font-nav-li);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: var(--size-nav);
+    color: var(--nav-text-color);
+}
+
+.navbar-brand {
+    font-family: var(--font-nav-tile);
+    text-transform: uppercase
+}
+
+.navbar .nav {
+    font-family: var(--font-nav-li);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: var(--size-nav);
+    padding-top: 1.6rem;
+}
+
+.navbar-inverse {
+    background-color: var(--nav-primary-color)
+}
+
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+    background-color: var(--nav-secondary-color)
+}
+
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+    background-color: var(--nav-primary-color)
+}
+
+.dropdown-menu {
+    background-color: var(--nav-dropdown-color)
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    background-color: var(--nav-secondary-color)
+}
+
+.navbar-inverse {
+    background-image: none;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    background-image: none;
+}
+
+.navbar-inverse {
+    border-color: var(--nav-primary-color)
+}
+
+.navbar-inverse .navbar-brand {
+    color: var(--nav-text-color)
+}
+
+.navbar-inverse .navbar-brand:hover {
+    color: var(--nav-text-select-color)
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: var(--nav-text-color)
+}
+
+.navbar-inverse .navbar-nav > li > a:hover,
+.navbar-inverse .navbar-nav > li > a:focus {
+    color: var(--nav-text-select-color)
+}
+
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+    color: var(--nav-text-select-color)
+}
+
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+    color: var(--nav-text-select-color)
+}
+
+.dropdown-menu > li > a {
+    color: var(--nav-text-color)
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    color: var(--nav-text-select-color)
+}
+
+.navbar-inverse .navbar-nav > .dropdown > a .caret {
+    border-top-color: var(--nav-text-color)
+}
+
+.navbar-inverse .navbar-nav > .dropdown > a:hover .caret {
+    border-top-color: var(--nav-text-color)
+}
+
+.navbar-inverse .navbar-nav > .dropdown > a .caret {
+    border-bottom-color: var(--nav-text-color)
+}
+
+.navbar-inverse .navbar-nav > .dropdown > a:hover .caret {
+    border-bottom-color: var(--nav-text-color)
+}
