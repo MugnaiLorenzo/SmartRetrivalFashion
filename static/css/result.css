@@ -116,7 +116,6 @@
 }
 
 .container-collection {
-    height: 100vh;
     background: var(--primary-color);
     margin-top: -10px;
 }
@@ -135,10 +134,27 @@
     justify-content: center;
 }
 
-.text-footer{
+.text-footer {
     text-align: center;
     color: white;
     font-size: 20px;
+}
+
+.container-collection {
+    background: var(--primary-color);
+}
+
+.container-image {
+    background: var(--primary-color);
+    padding-top: 10px;
+    height: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-image img:hover {
+    height: 350px;
 }
 
 @media only screen and (max-width: 820px) {
