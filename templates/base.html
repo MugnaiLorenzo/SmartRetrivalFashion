@@ -22,7 +22,7 @@
                 <span class="icon-bar"></span>
             </button>
             <img class="icon" src={{ url_for('static', filename='Image/icon.png') }} alt="">
-            <span class="nav-title">Retrival Fashion</span>
+            <span class="nav-title">Fashion</span>
         </div>
         <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
             <ul class="nav navbar-nav navbar-right">
@@ -36,6 +36,8 @@
         </nav>
     </div>
 </header>
+{% block bg %}
+{% endblock bg %}
 {% block content %}
 {% endblock %}
 

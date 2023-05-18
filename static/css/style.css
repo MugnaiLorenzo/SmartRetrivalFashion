@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Franklin');
 @import url('https://fonts.googleapis.com/css?family=Montserrat|Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Josefin Sans');
 @import url('nav.css');
 @import url('result.css');
 
@@ -14,8 +15,8 @@
     /*Font*/
     --font-nav-tile: 'Montserrat', sans-serif;
     --font-nav-li: 'Open Sans', sans-serif;
-    --font-title: 'Libre Franklin', Helvetica, sans-serif;
+    --font-sub-title: 'Libre Franklin', Helvetica, sans-serif;
+    --font-title: "Josefin Sans",sans-serif;
     /*Size*/
     --size-nav: 1.6rem;
-    --size-title: 3.2rem;
 }
