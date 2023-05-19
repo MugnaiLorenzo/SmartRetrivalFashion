@@ -5,7 +5,7 @@ import data_utilis
 import numpy as np
 import PIL.Image
 
-from flask import Flask, render_template, send_file
+from flask import Flask, render_template, send_file, request
 from io import BytesIO
 from data_utilis import *
 from data_utilis import targetpad_resize
@@ -20,9 +20,13 @@ def _load_assets():
 
 @app.route('/')
 def start():  # put application's code here
-    random_indexes = random.sample(range(len(data_utilis.image_id)), k=15)
-    names = np.array(data_utilis.image_id)[random_indexes].tolist()
-    return render_template('result.html', names=names)
+    search = request.args.get('search')
+    if search is None:
+        random_indexes = random.sample(range(len(data_utilis.image_id)), k=15)
+        names = np.array(data_utilis.image_id)[random_indexes].tolist()
+        return render_template('base.html', names=names)
+    else:
+        return render_template('result.html')
 
 
 @app.route('/get_image/<string:image_name>')
@@ -45,13 +49,19 @@ def get_image(image_name: str, dim: Optional[int] = None):
 @app.route('/char_image/<string:image_name>')
 def char_image(image_name: str):
     char = data_utilis.get_char_image(image_name)
-    print(char['gender'] , char['articleType'], char['baseColour'], char['year'], char['productDisplayName'])
+    print(char['gender'], char['articleType'], char['baseColour'], char['year'], char['productDisplayName'])
     gender = char['gender']
     articleType = char['articleType']
     baseColour = char['baseColour']
     year = char['year']
     productDisplayName = char['productDisplayName']
-    return render_template('feature.html', name=image_name, gender=gender, articleType=articleType, baseColour=baseColour, year=year, productDisplayName=productDisplayName)
+    return render_template('feature.html', name=image_name, gender=gender, articleType=articleType,
+                           baseColour=baseColour, year=year, productDisplayName=productDisplayName)
+
+
+@app.route('/modify')
+def modify():
+    return render_template('modify.html')
 
 
 if __name__ == '__main__':

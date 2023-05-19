@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "nav.html" %}
 {% block content %}
     <div class="content">
         <div class="container-search">
@@ -11,8 +11,24 @@
             </div>
         </div>
         <div class="container-char">
-            <img src={{ url_for('get_image', image_name=name, dim=520) }}>
-            {{ gender }}
+            <div class="container-char-image">
+                <img src={{ url_for('get_image', image_name=name, dim=520) }}>
+            </div>
+            <div class="container-char-info">
+                <div>
+                    <div class="char-title">Product Display Name</div>
+                    <div class="char-info">{{ productDisplayName }}</div>
+                    <div class="char-title">Gender</div>
+                    <div class="char-info">{{ gender }}</div>
+                    <div class="char-title">Article Type</div>
+                    <div class="char-info">{{ articleType }}</div>
+                    <div class="char-title">Base Colour</div>
+                    <div class="char-info">{{ baseColour }}</div>
+                    <div class="char-title">Year</div>
+                    <div class="char-info">{{ year }}</div>
+                </div>
+            </div>
         </div>
     </div>
+    <object class="divider" data={{ url_for('static', filename='Image/wave-2.svg') }}></object>
 {% endblock %}

@@ -1,47 +1,44 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href={{ url_for('static', filename='Image/icon.ico') }}>
-    <title>Smart Retrival Fashion</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet"/>
-    <link href={{ url_for('static', filename='css/style.css') }} rel="stylesheet"/>
-</head>
-<body>
-<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
-    <div class="container">
-        <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <img class="icon" src={{ url_for('static', filename='Image/icon.png') }} alt="">
-            <span class="nav-title">Fashion</span>
-        </div>
-        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active">
-                    <a href="#">Home</a>
-                </li>
-                <li>
-                    <a href="#">Modify collection</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</header>
+{% extends "nav.html" %}
 {% block content %}
+    <div class="content">
+        <div class="container-bg">
+            <div class="container-flex">
+                <div class="container-title">
+                    <div class="title">
+                        Smart <br>
+                        <span>Retrival</span><br>
+                        Fashion <br>
+                        <button class="btn-about">About us</button>
+                    </div>
+                </div>
+                <div class="container-title hidden-xs">
+                    <img src={{ url_for('static', filename='Image/dress.png') }}>
+                </div>
+            </div>
+        </div>
+        <object class="divider" data={{ url_for('static', filename='Image/wave.svg') }}></object>
+        <div class="container-search">
+            <div class="sub-title">Search for an artwork inserting a description</div>
+            <div class="container-bar-search">
+                <form class="search-bar">
+                    <input type="text" placeholder="Search" name="search">
+                    <button type="submit"><img src={{ url_for('static', filename='Image/search.png') }}></button>
+                </form>
+            </div>
+        </div>
+        <object class="divider" data={{ url_for('static', filename='Image/wave-1.svg') }}></object>
+        <div class="container-collection">
+            <div class="sub-title">Or browse though the artwork collection</div>
+            <div class="container-images">
+                {% for name in names %}
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 container-image">
+                        <a class="bg-image" href={{ url_for('char_image', image_name=name) }}>
+                            <img src={{ url_for('get_image', image_name=name, dim=340) }}>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <object class="divider bg-div" data={{ url_for('static', filename='Image/wave-2.svg') }}></object>
 {% endblock %}
-
-<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-</body>
-</html>

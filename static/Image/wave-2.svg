@@ -1,10 +1,16 @@
-<svg width="1920" height="100" xmlns="http://www.w3.org/2000/svg">
-
- <g>
-  <title>Layer 1</title>
-  <path d="m120,-23.125c1.25,0 2.59515,0.47836 3.75,0c1.6332,-0.67649 3.75,-2.5 5,-2.5c1.25,0 1.34515,-0.77164 2.5,-1.25c1.6332,-0.67649 3.52969,-3.10782 6.25,-3.75c1.21656,-0.28719 1.25,-1.25 1.25,-2.5c0,-1.25 1.25,-1.25 2.5,-1.25c2.5,0 4.6168,-0.57351 6.25,-1.25c1.15485,-0.47835 3.75,0 6.25,0c2.5,0 3.85032,0.86157 7.5,0c2.72031,-0.64218 8.76216,-2.25366 11.25,-2.5c6.34276,-0.62806 9.84819,-1.86682 13.75,-2.5c2.46771,-0.40046 11.25,-1.25 16.25,-1.25c5,0 11.41719,0.18596 17.5,-1.25c2.72031,-0.64218 8.75,-1.25 12.5,-1.25c7.5,0 9.92245,-0.62286 17.5,-1.25c3.73723,-0.3093 11.2951,-0.77723 13.75,-1.25c6.61,-1.27297 9.90724,-3.12194 16.25,-3.75c3.73175,-0.36952 11.26825,-0.88048 15,-1.25c6.34274,-0.62806 16.17957,-2.73543 20,-3.75c6.16025,-1.63594 16.25,-2.5 23.75,-2.5c3.75,0 11.26874,-2.19454 13.75,-2.5c5.11526,-0.62972 7.5,-1.25 10,-1.25l2.5,0l1.25,0" id="svg_2" stroke="null" fill="none"/>
-  <g stroke="null">
-   <path stroke="null" d="m-13.74987,41.58333l64.58333,-4.2447c64.58333,-4.08602 193.74999,-12.81346 322.91664,0c129.16666,12.57543 258.33332,46.69175 387.49997,44.43056c129.16666,-2.10252 258.33332,-40.18585 387.49997,-44.43056c129.16666,-4.08602 258.33332,25.26988 387.49997,25.38889c129.16666,-0.11901 258.33332,-29.47491 322.91664,-44.43056l64.58333,-14.79696l0,114.25l-64.58333,0c-64.58333,0 -193.74999,0 -322.91664,0c-129.16666,0 -258.33332,0 -387.49997,0c-129.16666,0 -258.33332,0 -387.49997,0c-129.16666,0 -258.33332,0 -387.49997,0c-129.16666,0 -258.33332,0 -322.91664,0l-64.58333,0l0,-76.16667z" fill="#5B5593"/>
-  </g>
- </g>
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1080" height="100" viewBox="0 0 1080 100" xml:space="preserve">
+<desc>Created with Fabric.js 5.2.4</desc>
+<defs>
+</defs>
+<rect x="0" y="0" width="100%" height="100%" fill="transparent"></rect>
+<g transform="matrix(1 0 0 1 540 50)" id="b58b15fc-e029-4270-881c-b840b14da509"  >
+<rect style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1; visibility: hidden;" vector-effect="non-scaling-stroke"  x="-540" y="-50" rx="0" ry="0" width="1080" height="100" />
+</g>
+<g transform="matrix(Infinity NaN NaN Infinity 0 0)" id="c0787631-37cb-428e-9036-8da33394e807"  >
+</g>
+<g transform="matrix(0.95 0 0 0.73 401.54 50)" id="a4c69415-08f6-4d08-92fa-a21da2c8a43b"  >
+<path style="stroke: rgb(0,0,0); stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(91,85,147); fill-rule: nonzero; opacity: 1;" vector-effect="non-scaling-stroke"  transform=" translate(-720, -208)" d="M 0 96 L 48 122.7 C 96 149 192 203 288 202.7 C 384 203 480 149 576 160 C 672 171 768 245 864 250.7 C 960 256 1056 192 1152 165.3 C 1248 139 1344 149 1392 154.7 L 1440 160 L 1440 320 L 1392 320 C 1344 320 1248 320 1152 320 C 1056 320 960 320 864 320 C 768 320 672 320 576 320 C 480 320 384 320 288 320 C 192 320 96 320 48 320 L 0 320 Z" stroke-linecap="round" />
+</g>
 </svg>
