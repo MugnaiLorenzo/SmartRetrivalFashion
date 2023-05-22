@@ -32,8 +32,8 @@
             <div class="container-images">
                 {% for name in names %}
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 container-image">
-                        <a class="bg-image" href={{ url_for('char_image', image_name=name) }}>
-                            <img src={{ url_for('get_image', image_name=name, dim=340) }}>
+                        <a class="bg-image" href={{ url_for('char_image', image_name=name[0]) }}>
+                            <img src={{ url_for('get_image', image_name=name[0], dim=340) }}>
                         </a>
                     </div>
                 {% endfor %}
