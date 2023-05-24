@@ -1,84 +1,15 @@
 import csv
-import torchvision.transforms.functional as F
-import PIL.Image
-import torch
-import pickle
-import pandas as pd
-import os
-import numpy as np
-from torch.utils.data import Dataset
-
-from collections import Counter
-from fashion_clip.fashion_clip import FashionCLIP, FCLIPDataset
 from pathlib import Path
 from typing import Optional
 from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normalize
+import torchvision.transforms.functional as F
+import PIL.Image
 
 server_base_path = Path(__file__).absolute().parent.absolute()
-dataset_root = Path(__file__).absolute().parent.absolute() / 'data_set'
-data_path = Path(__file__).absolute().parent.absolute() / 'data'
+dataset_root = Path(__file__).absolute().parent.absolute() / 'data_set' / 'fashion-dataset'
 image_root = dataset_root / 'images'
-images = []
-
-
-def _createSubSet():
-    global subset
-    path = dataset_root / "articles.csv"
-    articles = pd.read_csv(path, on_bad_lines='skip')
-    subset = articles.drop_duplicates("detail_desc").copy()
-    subset = subset[~subset["product_group_name"].isin(["Unknown"])]
-    subset = subset[subset["detail_desc"].apply(lambda x: 4 < len(str(x).split()) < 40)]
-    most_frequent_product_types = [k for k, v in dict(Counter(subset["product_type_name"].tolist())).items() if v > 10]
-    subset = subset[subset["product_type_name"].isin(most_frequent_product_types)]
-    path_image = dataset_root / 'images'
-    for k in subset["article_id"].tolist():
-        row = []
-        path = str(path_image) + '/0' + str(k)[:2] + '/0' + str(k) + ".jpg"
-        if os.path.isfile(path):
-            row.append(k)
-            row.append(path)
-            images.append(row)
-
-
-def _load_assets():
-    _createSubSet()
-    global fclip
-    fclip = FashionCLIP('fashion-clip')
-    global dataset_index_features
-    dataset_index_features = torch.load(data_path / 'dataset_index_features.pt')
-    global dataset_index_name
-    with open(data_path / 'dataset_index_names.pkl', 'rb') as f:
-        dataset_index_name = pickle.load(f)
-
-
-def _get_id_img_from_text(text: str):
-    if len(images) == 0:
-        _createSubSet()
-    # precision = 0
-    # # we could batch this operation to make it faster
-    # for index, t in enumerate(dataset_index_name):
-    #     arr = t.dot(dataset_index_features.T)
-    #
-    #     best = arr.argsort()[-5:][::-1]
-    #
-    #     if index in best:
-    #         precision += 1
-
-    # print(round(precision / len(dataset_index_name), 2))
-    text_embedding = fclip.encode_text([text], 32)[0]
-    id_of_matched_object = np.argmax(text_embedding.dot(dataset_index_features.T))
-    found_object = subset["article_id"].iloc[id_of_matched_object].tolist()
-    print(found_object)
-    return found_object
-
-
-def get_img_from_id(id: str):
-    if len(images) == 0:
-        _createSubSet()
-    for i in images:
-        if str(i[0]) == str(id):
-            return i[1]
-    return None
+data_path = Path(__file__).absolute().parent.absolute() / 'data'
+image_id = []
 
 
 # check is an image
@@ -91,11 +22,22 @@ def _convert_image_to_rgb(image):
     return image.convert("RGB")
 
 
+# read cvs file
+def read_cvs():
+    with open(dataset_root / 'styles.csv') as file:
+        csv_reader = csv.DictReader(file, delimiter=',')
+        line_count = 0
+        for row in csv_reader:
+            if line_count != 0:
+                image_id.append(row['id'])
+            line_count += 1
+
+
 def get_char_image(name: str):
-    with open(dataset_root / 'articles.csv', encoding="utf8") as file:
+    with open(dataset_root / 'styles.csv') as file:
         csv_reader = csv.DictReader(file, delimiter=',')
         for row in csv_reader:
-            if str(row['article_id']) == '0' + str(name):
+            if row['id'] == name:
                 return row
     return None
 
@@ -141,33 +83,3 @@ def targetpad_resize(target_ratio: float, dim: int, pad_value: int):
         Resize(dim, interpolation=PIL.Image.BICUBIC),
         CenterCrop(dim),
     ])
-
-
-class Fashion_Dataset(Dataset):
-    def __init__(self, preprocess: callable):
-        super().__init__()
-        if len(images) == 0:
-            _createSubSet()
-        self.preprocess = preprocess
-        self.dataset_root = dataset_root
-        path = dataset_root / "articles.csv"
-        paths = []
-        self.img_labels = pd.read_csv(path, on_bad_lines='skip')
-        path_image = dataset_root / 'images'
-        for k in self.img_labels["article_id"].tolist():
-            path = str(path_image) + '/0' + str(k)[:2] + '/0' + str(k) + ".jpg"
-            if os.path.isfile(path):
-                paths.append(path)
-        self.image_paths = path
-
-    def __len__(self):
-        return len(self.image_paths)
-
-    def __getitem__(self, index):
-        image_path = str(self.image_paths[index])
-        try:
-            image = self.preprocess(PIL.Image.open(self.image_paths[index]))
-        except Exception as e:
-            print(f"Exception occured: {e}")
-            return None
-        return image, image_path
