@@ -54,7 +54,7 @@ def get_image(image_name: str, dim: Optional[int] = None):
 @app.route('/char_image/<string:image_name>')
 def char_image(image_name: str):
     char = data_utilis.get_char_image(image_name)
-    # gender = char['gender']
+    # gender = char['gender'
     # articleType = char['articleType']
     # baseColour = char['baseColour']
     # year = char['year']
