@@ -1,0 +1,14 @@
+<div class="container-search bg-w">
+    <div class="sub-title">Search for an artwork inserting a description</div>
+    <div class="container-bar-search">
+        <form class="search-bar">
+            <input type="text" placeholder="Search" name="search">
+            <input class="img-input" name="image" id="image" type="file" accept="image/*">
+            <label for="image">
+                <img class="img-search" src={{ url_for('static', filename='Image/upload.png') }}>
+            </label>
+            <button type="submit"><img class="img-search" src={{ url_for('static', filename='Image/search.png') }}>
+            </button>
+        </form>
+    </div>
+</div>
