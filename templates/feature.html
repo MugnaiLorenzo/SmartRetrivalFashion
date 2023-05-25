@@ -1,31 +1,23 @@
 {% extends "nav.html" %}
 {% block content %}
     <div class="content">
-        <div class="container-search">
-            <div class="sub-title">Search for an artwork inserting a description</div>
-            <div class="container-bar-search">
-                <form class="search-bar">
-                    <input type="text" placeholder="Search" name="q">
-                    <button type="submit"><img src={{ url_for('static', filename='Image/search.png') }}></button>
-                </form>
-            </div>
-        </div>
+        {% include 'tools/search-bar.html' %}
         <div class="container-char">
             <div class="container-char-image">
-                <img src={{ url_for('get_image', image_name=name, dim=520) }}>
+                <img src={{ url_for('get_image', image_name=id, dim=520) }}>
             </div>
             <div class="container-char-info">
                 <div>
-                    <div class="char-title">Product Display Name</div>
-                    <div class="char-info">{{ productDisplayName }}</div>
-                    <div class="char-title">Gender</div>
-                    <div class="char-info">{{ gender }}</div>
-                    <div class="char-title">Article Type</div>
-                    <div class="char-info">{{ articleType }}</div>
-                    <div class="char-title">Base Colour</div>
-                    <div class="char-info">{{ baseColour }}</div>
-                    <div class="char-title">Year</div>
-                    <div class="char-info">{{ year }}</div>
+                    <div class="char-title">Name of the article</div>
+                    <div class="char-info">{{ param[0] }}</div>
+                    <div class="char-title">Description</div>
+                    <div class="char-info">{{ param[1] }}</div>
+                    <div class="char-title">Type of the article</div>
+                    <div class="char-info">{{ param[2] }}</div>
+                    <div class="char-title">Group of the article</div>
+                    <div class="char-info">{{ param[3] }}</div>
+                    <div class="char-title">Colour of the article</div>
+                    <div class="char-info">{{ param[4] }}</div>
                 </div>
             </div>
         </div>

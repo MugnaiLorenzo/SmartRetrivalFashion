@@ -4,10 +4,11 @@
         <form class="search-bar">
             <input type="text" placeholder="Search" name="search">
             <input class="img-input" name="image" id="image" type="file" accept="image/*">
-            <label for="image">
-                <img class="img-search" src={{ url_for('static', filename='Image/upload.png') }}>
+            <label for="image" class="container-img-search">
+                <img class="img-search" accept="image/*" src={{ url_for('static', filename='Image/upload.png') }}>
             </label>
-            <button type="submit"><img class="img-search" src={{ url_for('static', filename='Image/search.png') }}>
+            <button type="submit" class="container-img-search">
+                <img class="img-search" src={{ url_for('static', filename='Image/search.png') }}>
             </button>
         </form>
     </div>

@@ -1,15 +1,57 @@
 import csv
+import pickle
 from pathlib import Path
 from typing import Optional
+
+import torch
 from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normalize
 import torchvision.transforms.functional as F
 import PIL.Image
+import pandas as pd
+import os
+import numpy as np
+
+from fashion_clip.fashion_clip import FashionCLIP
+from collections import Counter
 
 server_base_path = Path(__file__).absolute().parent.absolute()
-dataset_root = Path(__file__).absolute().parent.absolute() / 'data_set' / 'fashion-dataset'
+dataset_root = Path(__file__).absolute().parent.absolute() / 'data_for_fashion_clip'
 image_root = dataset_root / 'images'
 data_path = Path(__file__).absolute().parent.absolute() / 'data'
 image_id = []
+
+
+def setSubset():
+    global fclip
+    global subset
+    fclip = FashionCLIP('fashion-clip')
+    path = dataset_root / "articles.csv"
+    articles = pd.read_csv(path, on_bad_lines='skip')
+    # drop items that have the same description
+    subset = articles.drop_duplicates("detail_desc").copy()
+    # remove items of unkown category
+    subset = subset[~subset["product_group_name"].isin(["Unknown"])]
+    # FashionCLIP has a limit of 77 tokens, let's play it safe and drop things with more than 40 tokens
+    subset = subset[subset["detail_desc"].apply(lambda x: 4 < len(str(x).split()) < 40)]
+    # We also drop products types that do not occur very frequently in this subset of data
+    most_frequent_product_types = [k for k, v in dict(Counter(subset["product_type_name"].tolist())).items() if v > 10]
+    subset = subset[subset["product_type_name"].isin(most_frequent_product_types)]
+    path_image = dataset_root / 'images'
+    global images
+    images = []
+    for k in subset["article_id"].tolist():
+        if os.path.isfile(str(path_image) + "/" + str(k) + ".jpg"):
+            images.append(str(path_image) + "/" + str(k) + ".jpg")
+
+
+def load():
+    read_cvs()
+    setSubset()
+    global dataset_index_features
+    dataset_index_features = torch.load(data_path / 'dataset_index_features.pt')
+    global dataset_index_name
+    with open(data_path / 'dataset_index_names.pkl', 'rb') as f:
+        dataset_index_name = pickle.load(f)
 
 
 # check is an image
@@ -24,36 +66,43 @@ def _convert_image_to_rgb(image):
 
 # read cvs file
 def read_cvs():
-    with open(dataset_root / 'styles.csv') as file:
+    with open(dataset_root / 'articles.csv', encoding="utf8") as file:
         csv_reader = csv.DictReader(file, delimiter=',')
         line_count = 0
         for row in csv_reader:
             if line_count != 0:
-                image_id.append(row['id'])
+                image_id.append(row['article_id'])
             line_count += 1
 
 
+def get_url(name: str):
+    return str(image_root) + "/" + name + ".jpg"
+
+
 def get_char_image(name: str):
-    with open(dataset_root / 'styles.csv') as file:
+    with open(dataset_root / 'articles.csv', encoding="utf8") as file:
         csv_reader = csv.DictReader(file, delimiter=',')
         for row in csv_reader:
-            if row['id'] == name:
+            if str(row['article_id']) == str(name):
                 return row
     return None
 
 
-class TargetPad:
-    """
-    Pad the image if its aspect ratio is above a target ratio.
-    Pad it to match such target ratio
-    """
+def get_id_from_text(text: str):
+    text_embedding = fclip.encode_text([text], 32)[0]
+    id_of_matched_object = np.argmax(text_embedding.dot(dataset_index_features.T))
+    found_object = subset["article_id"].iloc[id_of_matched_object].tolist()
+    print(found_object)
+    return found_object
 
+
+class TargetPad:
+    # Pad the image if its aspect ratio is above a target ratio.
+    # Pad it to match such target ratio
     def __init__(self, target_ratio: float, size: int, pad_value: Optional[int] = 0):
-        """
-        :param target_ratio: target ratio
-        :param size: preprocessing output dimension
-        :param pad_value: padding value, 0 is black-pad (zero-pad), 255 is white-pad
-        """
+        #:param target_ratio: target ratio
+        #:param size: preprocessing output dimension
+        #:param pad_value: padding value, 0 is black-pad (zero-pad), 255 is white-pad
         self.size = size
         self.target_ratio = target_ratio
         self.pad_value = pad_value
@@ -71,13 +120,11 @@ class TargetPad:
 
 
 def targetpad_resize(target_ratio: float, dim: int, pad_value: int):
-    """
-    Yield a torchvision transform which resize and center crop an image using TargetPad pad
-    :param target_ratio: target ratio for TargetPad
-    :param dim: image output dimension
-    :param pad_value: padding value, 0 is black-pad (zero-pad), 255 is white-pad
-    :return: torchvision Compose transform
-    """
+    # Yield a torchvision transform which resize and center crop an image using TargetPad pad
+    #:param target_ratio: target ratio for TargetPad
+    #:param dim: image output dimension
+    #:param pad_value: padding value, 0 is black-pad (zero-pad), 255 is white-pad
+    #:return: torchvision Compose transform
     return Compose([
         TargetPad(target_ratio, dim, pad_value),
         Resize(dim, interpolation=PIL.Image.BICUBIC),
