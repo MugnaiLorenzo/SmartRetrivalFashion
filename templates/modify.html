@@ -1,3 +1,31 @@
 {% extends "nav.html" %}
 {% block content %}
+    <div class="content">
+        <div class="container-bg-modify">
+            <div class="container-form">
+                <label for="name">Add name of the article</label><br>
+                <input name="name" id="name" type="text" placeholder="Name of the article"><br>
+                <label for="description">Add description of the article</label><br>
+                <input name="description" id="description" type="text" placeholder="Description of the article"><br>
+                <label for="type">Add type of the article</label><br>
+                <input name="type" id="type" type="text" placeholder="Type of the article"><br>
+                <label for="group">Add group of the article</label><br>
+                <input name="group" id="group" type="text" placeholder="Group of the article"><br>
+                <label for="colour">Add colour of the article</label><br>
+                <input name="colour" id="colour" type="text" placeholder="Colour of the article"><br>
+                <input class="img-input" name="image" id="image" type="file" accept="image/*">
+                <label for="image">
+                    Upload image
+                    <span class="container-img-modify">
+                        <img class="img-search" accept="image/*"
+                             src={{ url_for('static', filename='Image/upload.png') }}>
+                    </span>
+                </label>
+                <div class="container-submit">
+                    <input type="submit" class="btn-add" value="Aggiungi">
+                </div>
+            </div>
+        </div>
+        <object class="divider" data={{ url_for('static', filename='Image/wave-2.svg') }}></object>
+    </div>
 {% endblock content %}
