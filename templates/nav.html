@@ -26,12 +26,30 @@
         </div>
         <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active">
-                    <a href="/">Home</a>
-                </li>
-                <li>
-                    <a href="/modify">Modify collection</a>
-                </li>
+                {% if not active %}
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/modify">Modify collection</a>
+                    </li>
+                {% else %}
+                    {% if active=="Home" %}
+                        <li class="active">
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a href="/modify">Modify collection</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li class="active">
+                            <a href="/modify">Modify collection</a>
+                        </li>
+                    {% endif %}
+                {% endif %}
             </ul>
         </nav>
     </div>

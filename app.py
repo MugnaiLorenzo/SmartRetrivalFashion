@@ -9,7 +9,7 @@ import numpy as np
 import PIL.Image
 
 # import pandas as pd
-from flask import Flask, render_template, send_file, request
+from flask import Flask, render_template, send_file, request, url_for, redirect
 from io import BytesIO
 from data_utilis import *
 from data_utilis import targetpad_resize
@@ -19,16 +19,16 @@ from data_utilis import targetpad_resize
 app = Flask(__name__)
 
 
-
-
 @app.route('/')
-def start():  # put application's code here
+@app.route('/home')
+def home():  # put application's code here
     load()
     search = request.args.get('search')
+    active = "Home"
     if search is None:
         random_indexes = random.sample(range(len(data_utilis.image_id)), k=15)
         names = np.array(data_utilis.image_id)[random_indexes].tolist()
-        return render_template('base.html', names=names)
+        return render_template('base.html', names=names, active="Home")
     else:
         image_name = get_id_from_text(search)
         param = setParam(image_name)
@@ -57,6 +57,18 @@ def char_image(image_name: str):
     return render_template('feature.html', id=image_name, param=param)
 
 
+@app.route('/add/', methods=['GET'])
+def add():
+    name = request.args.get('name')
+    description = request.args.get('description')
+    type = request.args.get('type')
+    group = request.args.get('group')
+    colour = request.args.get('colour')
+    image = request.args.get('image')
+    print(name, description, type, group, colour, image)
+    return redirect(url_for('home'))
+
+
 def setParam(image_name: str):
     param = []
     char = data_utilis.get_char_image(image_name)
@@ -70,7 +82,8 @@ def setParam(image_name: str):
 
 @app.route('/modify')
 def modify():
-    return render_template('modify.html')
+    active = "Modify"
+    return render_template('modify.html', active=active)
 
 
 if __name__ == '__main__':
