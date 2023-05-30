@@ -14,7 +14,7 @@ from io import BytesIO
 from data_utilis import *
 from data_utilis import targetpad_resize
 
-# from fashion_clip.fashion_clip import FashionCLIP
+from fashion_clip.fashion_clip import FashionCLIP
 
 app = Flask(__name__)
 
@@ -24,15 +24,13 @@ app = Flask(__name__)
 def home():  # put application's code here
     load()
     search = request.args.get('search')
-    active = "Home"
     if search is None:
         random_indexes = random.sample(range(len(data_utilis.image_id)), k=15)
         names = np.array(data_utilis.image_id)[random_indexes].tolist()
         return render_template('base.html', names=names, active="Home")
     else:
-        image_name = get_id_from_text(search)
-        param = setParam(image_name)
-        return render_template('feature.html', id=image_name, param=param)
+        imgs = retrival_from_text(search)
+        return render_template('result.html', imgs=imgs, search=search)
 
 
 @app.route('/get_image/<string:image_name>')
@@ -53,8 +51,12 @@ def get_image(image_name: str, dim: Optional[int] = None):
 
 @app.route('/char_image/<string:image_name>')
 def char_image(image_name: str):
-    param = setParam(image_name)
-    return render_template('feature.html', id=image_name, param=param)
+    search = request.args.get('search')
+    if search is None:
+        param = setParam(image_name)
+        return render_template('feature.html', id=image_name, param=param)
+    else:
+        return redirect(url_for('home', search=search))
 
 
 @app.route('/add/', methods=['GET'])
@@ -82,8 +84,7 @@ def setParam(image_name: str):
 
 @app.route('/modify')
 def modify():
-    active = "Modify"
-    return render_template('modify.html', active=active)
+    return render_template('modify.html', active="Modify")
 
 
 if __name__ == '__main__':

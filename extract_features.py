@@ -4,11 +4,28 @@ import pandas as pd
 from collections import Counter
 import torch
 import numpy as np
+import csv
 
-from data_utilis import *
-from fashion_clip.fashion_clip import FashionCLIP
+from fashion_clip.fashion_clip import FashionCLIP, FCLIPDataset
+from data_utilis import dataset_root, image_root, get_url, data_path
 
-fclip = FashionCLIP('fashion-clip')
+with open(dataset_root / 'articles.csv', encoding="utf8") as file:
+    csv_reader = csv.DictReader(file, delimiter=',')
+    line_count = 0
+    catalog = []
+    for row in csv_reader:
+        if line_count != 0:
+            catalog.append(
+                {'id': row['article_id'], 'image': get_url(row['article_id']), 'caption': row['detail_desc']})
+        line_count += 1
+    print(len(catalog))
+dataset = FCLIPDataset(name="mydataset", image_source_path=str(image_root), image_source_type='local', catalog=catalog)
+fclip = FashionCLIP('fashion-clip', dataset, approx=False)
+print('fclip.retrieval([jeans])')
+print(fclip.retrieval(['jeans']))
+with open(data_path / f'f_clip.pkl', 'wb+') as f:
+    pickle.dump(fclip, f)
+
 path = dataset_root / "articles.csv"
 articles = pd.read_csv(path, on_bad_lines='skip')
 # drop items that have the same description

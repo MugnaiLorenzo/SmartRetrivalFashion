@@ -11,7 +11,6 @@ import pandas as pd
 import os
 import numpy as np
 
-from fashion_clip.fashion_clip import FashionCLIP
 from collections import Counter
 
 server_base_path = Path(__file__).absolute().parent.absolute()
@@ -21,10 +20,28 @@ data_path = Path(__file__).absolute().parent.absolute() / 'data'
 image_id = []
 
 
+# read cvs file
+def read_cvs():
+    with open(dataset_root / 'articles.csv', encoding="utf8") as file:
+        csv_reader = csv.DictReader(file, delimiter=',')
+        line_count = 0
+        global catalog
+        catalog = []
+        for row in csv_reader:
+            if line_count != 0:
+                catalog.append(
+                    {'id': row['article_id'], 'image': get_url(row['article_id']), 'caption': row['detail_desc']})
+                image_id.append(row['article_id'])
+            line_count += 1
+
+
 def setSubset():
     global fclip
     global subset
-    fclip = FashionCLIP('fashion-clip')
+    # dataset = FCLIPDataset(name="mydataset", image_source_path=str(image_root), image_source_type='local', catalog=catalog)
+    # fclip = FashionCLIP('fashion-clip', dataset)
+    with open(data_path / 'f_clip.pkl', 'rb') as c:
+        fclip = pickle.load(c)
     path = dataset_root / "articles.csv"
     articles = pd.read_csv(path, on_bad_lines='skip')
     # drop items that have the same description
@@ -52,6 +69,7 @@ def load():
     global dataset_index_name
     with open(data_path / 'dataset_index_names.pkl', 'rb') as f:
         dataset_index_name = pickle.load(f)
+    retrival_from_text('jeans')
 
 
 # check is an image
@@ -62,17 +80,6 @@ def is_image_file(filename: str) -> bool:
 # conversion image to rgb
 def _convert_image_to_rgb(image):
     return image.convert("RGB")
-
-
-# read cvs file
-def read_cvs():
-    with open(dataset_root / 'articles.csv', encoding="utf8") as file:
-        csv_reader = csv.DictReader(file, delimiter=',')
-        line_count = 0
-        for row in csv_reader:
-            if line_count != 0:
-                image_id.append(row['article_id'])
-            line_count += 1
 
 
 def get_url(name: str):
@@ -92,8 +99,15 @@ def get_id_from_text(text: str):
     text_embedding = fclip.encode_text([text], 32)[0]
     id_of_matched_object = np.argmax(text_embedding.dot(dataset_index_features.T))
     found_object = subset["article_id"].iloc[id_of_matched_object].tolist()
-    print(found_object)
     return found_object
+
+
+def retrival_from_text(text: str):
+    imgs = []
+    r = fclip.retrieval([text])[0]
+    for i in r:
+        imgs.append(catalog[i])
+    return imgs
 
 
 class TargetPad:
