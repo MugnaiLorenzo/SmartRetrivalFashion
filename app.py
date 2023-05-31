@@ -34,7 +34,6 @@ def search():  # put application's code here
             return render_template('result.html', imgs=imgs, search=search)
         else:
             img = PIL.Image.open(image)
-            print(img)
             search = get_label_from_image(img)
             imgs = retrival_from_text(search)
             return render_template('result.html', imgs=imgs, search=search)
@@ -62,15 +61,15 @@ def char_image(image_name: str):
     return render_template('feature.html', id=image_name, param=param)
 
 
-@app.route('/add/', methods=['GET'])
+@app.route('/add/', methods=['GET', 'POST'])
 def add():
-    name = request.args.get('name')
-    description = request.args.get('description')
-    type = request.args.get('type')
-    group = request.args.get('group')
-    colour = request.args.get('colour')
-    image = request.args.get('image')
-    print(name, description, type, group, colour, image)
+    name = request.form['name']
+    description = request.form['description']
+    type = request.form['type']
+    group = request.form['group']
+    colour = request.form['colour']
+    image = request.files['image']
+    print(name, description, type, group, colour, image.filename)
     return redirect(url_for('home'))
 
 
@@ -87,7 +86,8 @@ def setParam(image_name: str):
 
 @app.route('/modify')
 def modify():
-    return render_template('modify.html', active="Modify")
+    load()
+    return render_template('modify.html', active="Modify", label=getLabel())
 
 
 if __name__ == '__main__':

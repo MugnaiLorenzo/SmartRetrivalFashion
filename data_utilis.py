@@ -40,8 +40,6 @@ def read_cvs():
         label = list(dict.fromkeys(label))
 
 
-
-
 def setSubset():
     global fclip
     global subset
@@ -67,6 +65,7 @@ def setSubset():
         if os.path.isfile(str(path_image) + "/" + str(k) + ".jpg"):
             images.append(str(path_image) + "/" + str(k) + ".jpg")
     #
+
 
 def load():
     read_cvs()
@@ -119,6 +118,10 @@ def retrival_from_text(text: str):
 
 def get_label_from_image(url: str):
     return fclip.zero_shot_classification([url], label)[0]
+
+
+def getLabel():
+    return label
 
 
 class TargetPad:
