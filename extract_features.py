@@ -18,11 +18,8 @@ with open(dataset_root / 'articles.csv', encoding="utf8") as file:
             catalog.append(
                 {'id': row['article_id'], 'image': get_url(row['article_id']), 'caption': row['detail_desc']})
         line_count += 1
-    print(len(catalog))
 dataset = FCLIPDataset(name="mydataset", image_source_path=str(image_root), image_source_type='local', catalog=catalog)
 fclip = FashionCLIP('fashion-clip', dataset, approx=False)
-print('fclip.retrieval([jeans])')
-print(fclip.retrieval(['jeans']))
 with open(data_path / f'f_clip.pkl', 'wb+') as f:
     pickle.dump(fclip, f)
 

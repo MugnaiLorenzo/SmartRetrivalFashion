@@ -18,6 +18,7 @@ dataset_root = Path(__file__).absolute().parent.absolute() / 'data_for_fashion_c
 image_root = dataset_root / 'images'
 data_path = Path(__file__).absolute().parent.absolute() / 'data'
 image_id = []
+path_image = dataset_root / 'images'
 
 
 # read cvs file
@@ -26,13 +27,19 @@ def read_cvs():
         csv_reader = csv.DictReader(file, delimiter=',')
         line_count = 0
         global catalog
+        global label
+        label = []
         catalog = []
         for row in csv_reader:
             if line_count != 0:
                 catalog.append(
                     {'id': row['article_id'], 'image': get_url(row['article_id']), 'caption': row['detail_desc']})
                 image_id.append(row['article_id'])
+                label.append(row["product_type_name"])
             line_count += 1
+        label = list(dict.fromkeys(label))
+
+
 
 
 def setSubset():
@@ -59,7 +66,7 @@ def setSubset():
     for k in subset["article_id"].tolist():
         if os.path.isfile(str(path_image) + "/" + str(k) + ".jpg"):
             images.append(str(path_image) + "/" + str(k) + ".jpg")
-
+    #
 
 def load():
     read_cvs()
@@ -69,7 +76,7 @@ def load():
     global dataset_index_name
     with open(data_path / 'dataset_index_names.pkl', 'rb') as f:
         dataset_index_name = pickle.load(f)
-    retrival_from_text('jeans')
+    # get_label_from_image(str(path_image) + "/108775044.jpg")
 
 
 # check is an image
@@ -108,6 +115,10 @@ def retrival_from_text(text: str):
     for i in r:
         imgs.append(catalog[i])
     return imgs
+
+
+def get_label_from_image(url: str):
+    return fclip.zero_shot_classification([url], label)[0]
 
 
 class TargetPad:

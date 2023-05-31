@@ -1,19 +1,14 @@
-# import pickle
 import pickle
-
 import torch
 import random
-
 import data_utilis
 import numpy as np
 import PIL.Image
 
-# import pandas as pd
 from flask import Flask, render_template, send_file, request, url_for, redirect
 from io import BytesIO
 from data_utilis import *
 from data_utilis import targetpad_resize
-
 from fashion_clip.fashion_clip import FashionCLIP
 
 app = Flask(__name__)
@@ -23,14 +18,26 @@ app = Flask(__name__)
 @app.route('/home')
 def home():  # put application's code here
     load()
-    search = request.args.get('search')
-    if search is None:
-        random_indexes = random.sample(range(len(data_utilis.image_id)), k=15)
-        names = np.array(data_utilis.image_id)[random_indexes].tolist()
-        return render_template('base.html', names=names, active="Home")
-    else:
-        imgs = retrival_from_text(search)
-        return render_template('result.html', imgs=imgs, search=search)
+    random_indexes = random.sample(range(len(data_utilis.image_id)), k=15)
+    names = np.array(data_utilis.image_id)[random_indexes].tolist()
+    return render_template('base.html', names=names, active="Home")
+
+
+@app.route('/', methods=['GET', 'POST'])
+def search():  # put application's code here
+    load()
+    if request.method == 'POST':
+        search = request.form['search']
+        image = request.files['image']
+        if not search == "":
+            imgs = retrival_from_text(search)
+            return render_template('result.html', imgs=imgs, search=search)
+        else:
+            img = PIL.Image.open(image)
+            print(img)
+            search = get_label_from_image(img)
+            imgs = retrival_from_text(search)
+            return render_template('result.html', imgs=imgs, search=search)
 
 
 @app.route('/get_image/<string:image_name>')
@@ -51,12 +58,8 @@ def get_image(image_name: str, dim: Optional[int] = None):
 
 @app.route('/char_image/<string:image_name>')
 def char_image(image_name: str):
-    search = request.args.get('search')
-    if search is None:
-        param = setParam(image_name)
-        return render_template('feature.html', id=image_name, param=param)
-    else:
-        return redirect(url_for('home', search=search))
+    param = setParam(image_name)
+    return render_template('feature.html', id=image_name, param=param)
 
 
 @app.route('/add/', methods=['GET'])
