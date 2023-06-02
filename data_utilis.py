@@ -43,8 +43,6 @@ def read_cvs():
 def setSubset():
     global fclip
     global subset
-    # dataset = FCLIPDataset(name="mydataset", image_source_path=str(image_root), image_source_type='local', catalog=catalog)
-    # fclip = FashionCLIP('fashion-clip', dataset)
     with open(data_path / 'f_clip.pkl', 'rb') as c:
         fclip = pickle.load(c)
     path = dataset_root / "articles.csv"
@@ -75,7 +73,7 @@ def load():
     global dataset_index_name
     with open(data_path / 'dataset_index_names.pkl', 'rb') as f:
         dataset_index_name = pickle.load(f)
-    # get_label_from_image(str(path_image) + "/108775044.jpg")
+    fclip.set_approx(True)
 
 
 # check is an image
@@ -105,6 +103,7 @@ def get_id_from_text(text: str):
     text_embedding = fclip.encode_text([text], 32)[0]
     id_of_matched_object = np.argmax(text_embedding.dot(dataset_index_features.T))
     found_object = subset["article_id"].iloc[id_of_matched_object].tolist()
+    print(type(fclip))
     return found_object
 
 
@@ -117,7 +116,12 @@ def retrival_from_text(text: str):
 
 
 def get_label_from_image(url: str):
-    return fclip.zero_shot_classification([url], label)[0]
+    # return fclip.zero_shot_classification([url], label)[0]
+    imgs = []
+    r = fclip.retrival_img([url])[0]
+    for i in r:
+        imgs.append(catalog[i])
+    return imgs
 
 
 def getLabel():

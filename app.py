@@ -34,8 +34,8 @@ def search():  # put application's code here
             return render_template('result.html', imgs=imgs, search=search)
         else:
             img = PIL.Image.open(image)
-            search = get_label_from_image(img)
-            imgs = retrival_from_text(search)
+            imgs = get_label_from_image(img)
+            # imgs = retrival_from_text(search)
             return render_template('result.html', imgs=imgs, search=search)
 
 
