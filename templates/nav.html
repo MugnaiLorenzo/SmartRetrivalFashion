@@ -12,57 +12,67 @@
     <link href={{ url_for('static', filename='css/style.css') }} rel="stylesheet"/>
 </head>
 <body>
-<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
-    <div class="container">
-        <div class="navbar-header">
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <img class="icon" src={{ url_for('static', filename='Image/icon.png') }} alt="">
-            <span class="nav-title">Fashion</span>
-        </div>
-        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
-            <ul class="nav navbar-nav navbar-right">
-                {% if not active %}
-                    <li>
-                        <a href="/">Home</a>
-                    </li>
-                    <li>
-                        <a href="/modify">Modify collection</a>
-                    </li>
-                {% else %}
-                    {% if active=="Home" %}
-                        <li class="active">
+<div id="page">
+    <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img class="icon" src={{ url_for('static', filename='Image/icon.png') }} alt="">
+                <span class="nav-title">Fashion</span>
+            </div>
+            <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+                <ul class="nav navbar-nav navbar-right">
+                    {% if not active %}
+                        <li>
                             <a href="/">Home</a>
                         </li>
                         <li>
                             <a href="/modify">Modify collection</a>
                         </li>
                     {% else %}
-                        <li>
-                            <a href="/">Home</a>
-                        </li>
-                        <li class="active">
-                            <a href="/modify">Modify collection</a>
-                        </li>
+                        {% if active=="Home" %}
+                            <li class="active">
+                                <a href="/">Home</a>
+                            </li>
+                            <li>
+                                <a href="/modify">Modify collection</a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a href="/">Home</a>
+                            </li>
+                            <li class="active">
+                                <a href="/modify">Modify collection</a>
+                            </li>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-            </ul>
-        </nav>
-    </div>
-</header>
-{% block content %}
-{% endblock %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+    {% block content %}
+    {% endblock %}
 
-<div class="container-footer bg-d">
-    <div class="text-footer">Design by Lorenzo Mugnai</div>
+    <div class="container-footer bg-d">
+        <div class="text-footer">Design by Lorenzo Mugnai</div>
+    </div>
+    <div id="loading">
+    </div>
 </div>
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    function loading() {
+        document.getElementById("page").style.opacity = 0.5;
+        document.getElementById("loading").style.display = "flex";
+    }
+</script>
 </body>
 </html>

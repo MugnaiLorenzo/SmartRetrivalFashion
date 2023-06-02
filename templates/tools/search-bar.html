@@ -3,11 +3,12 @@
     <div class="container-bar-search">
         <form class="search-bar" enctype="multipart/form-data" method="post" action="http://127.0.0.1:5000">
             <input type="text" placeholder="Search" name="search">
-            <input class="img-input" name="image" id="image" type="file" accept="image/*" onchange="this.form.submit()">
+            <input class="img-input" name="image" id="image" type="file" accept="image/*"
+                   onchange="this.form.submit(); loading();">
             <label for="image" class="container-img-search">
                 <img class="img-search" accept="image/*" src={{ url_for('static', filename='Image/upload.png') }}>
             </label>
-            <button type="submit" class="container-img-search">
+            <button type="submit" class="container-img-search" onclick="loading()">
                 <img class="img-search" src={{ url_for('static', filename='Image/search.png') }}>
             </button>
         </form>
