@@ -1,16 +1,30 @@
 <div class="container-search bg-w">
     <div class="sub-title">Search for an artwork inserting a description</div>
     <div class="container-bar-search">
-        <form class="search-bar" enctype="multipart/form-data" method="post" action="http://127.0.0.1:5000">
-            <input type="text" placeholder="Search" name="search">
-            <input class="img-input" name="image" id="image" type="file" accept="image/*"
-                   onchange="this.form.submit(); loading();">
-            <label for="image" class="container-img-search">
-                <img class="img-search" accept="image/*" src={{ url_for('static', filename='Image/upload.png') }}>
-            </label>
-            <button type="submit" class="container-img-search" onclick="loading()">
-                <img class="img-search" src={{ url_for('static', filename='Image/search.png') }}>
-            </button>
+        <form enctype="multipart/form-data" method="post" action="http://127.0.0.1:5000">
+            <div class="disp-flex">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search" name="search"><br>
+                </div>
+                <div class="second_line">
+                    <label for="collection" class="sec_col">Collection:</label>
+                    <select class="select" name="collection" id="collection">
+                        <option value="all">All</option>
+                        {% for c in cols %}
+                            <option value={{ c[0] }}>{{ c[1] }}</option>
+                        {% endfor %}
+                    </select>
+                    <input class="img-input" name="image" id="image" type="file" accept="image/*"
+                           onchange="this.form.submit(); loading();">
+                    <label for="image" class="container-img-search">
+                        <img class="img-search" accept="image/*"
+                             src={{ url_for('static', filename='Image/upload.png') }}>
+                    </label>
+                    <button type="submit" class="container-img-search" onclick="loading()">
+                        <img class="img-search" src={{ url_for('static', filename='Image/search.png') }}>
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
 </div>

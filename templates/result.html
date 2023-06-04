@@ -4,16 +4,22 @@
         {% include 'tools/search-bar.html' %}
         <object class="divider" data={{ url_for('static', filename='Image/wave-1.svg') }}></object>
         <div class="container-collection">
-            <div class="sub-title">results for the search: {{ search }}</div>
-            <div class="container-images">
-                {% for name in imgs %}
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 container-image">
-                        <a class="bg-image" href={{ url_for('char_image', image_name=name["id"]) }}>
-                            <img src={{ url_for('get_image', image_name=name["id"], dim=340) }}>
-                        </a>
-                    </div>
-                {% endfor %}
-            </div>
+            {% if not search=="" %}
+                <div class="sub-title">results for the search: {{ search }}</div>
+            {% endif %}
+            {% for i in imgs %}
+                <div class="container-images">
+                    <div class="cont-title">{{ i[2] }}</div>
+                    {% for j in i[1] %}
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 container-image">
+                            <a class="bg-image"
+                               href={{ url_for('char_image', image_name=j["id"], collection=i[0]) }}>
+                                <img src={{ url_for('get_image', image_name=j["id"], collection=i[0], dim=340) }}>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
         </div>
     </div>
     <object class="divider bg-div" data={{ url_for('static', filename='Image/wave-2.svg') }}></object>

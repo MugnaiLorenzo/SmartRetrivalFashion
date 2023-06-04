@@ -1,0 +1,5 @@
+collection,image_path,metadata_path,fclip_path,name
+1,dataset\Images\collection_1,dataset\Metadata\collection_1.csv,dataset\Fclip\f_clip_1.pkl,collection1
+2,dataset\Images\collection_2,dataset\Metadata\collection_2.csv,dataset\Fclip\f_clip_2.pkl,collection2
+3,dataset\Images\collection_3,dataset\Metadata\collection_3.csv,dataset\Fclip\f_clip_3.pkl,collection3
+4,dataset\Images\collection_4,dataset\Metadata\collection_4.csv,dataset\Fclip\f_clip_4.pkl,collection4

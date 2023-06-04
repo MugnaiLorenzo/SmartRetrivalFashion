@@ -6,9 +6,16 @@
     justify-content: center;
 }
 
+.disp-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 .search-bar {
-    width: 100%;
-    max-width: 700px;
+    /*width: 100%;*/
+    width: 700px;
     height: 70px;
     border: 1px solid var(--nav-dropdown-color);
     display: flex;
@@ -32,13 +39,38 @@
     color: #cac7ff;
 }
 
+.second_line {
+    width: 100%;
+    padding-top: 4%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.second_line label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    color: #cac7ff;
+}
+
+.select {
+    width: 300px;
+    height: 60px;
+    border: 1px solid black;
+    border-radius: 60px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
 .img-search {
     width: 25px;
 }
 
 .container-img-search {
     border: 0;
-    border-radius: 50%;
+    border-radius: 60px;
     width: 60px;
     height: 60px;
     background-color: var(--nav-dropdown-color);
@@ -60,22 +92,47 @@
 
 @media only screen and (max-width: 767px) {
     .search-bar {
-        width: 100%;
-        max-width: 400px;
+        width: 400px;
         height: 70px;
+    }
+
+    .select {
+        width: 200px;
+        height: 50px;
+    }
+
+    .container-img-search {
+        width: 50px;
+        height: 50px;
     }
 }
 
-@media only screen and (max-width: 410px) {
+@media only screen and (max-width: 420px) {
     .search-bar {
         width: 100%;
         max-width: 300px;
         height: 60px;
     }
 
+    .second_line {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .sec_col {
+        width: 40%;
+        font-size: 16px;
+        text-align: end;
+    }
+
+    .select {
+        width: 50%;
+        font-size: 16px;
+    }
+
     .container-img-search {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
     }
 
     .search-bar input {
@@ -84,7 +141,7 @@
     }
 
     .img-search {
-        width: 20px;
+        width: 30px;
     }
 }
 

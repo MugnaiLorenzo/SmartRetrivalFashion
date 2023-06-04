@@ -150,6 +150,15 @@
     .sub-title {
         font-size: 25px;
     }
+
+    .bg-image {
+        width: 250px;
+        height: 250px;
+    }
+
+    .container-image img:hover {
+        height: 260px;
+    }
 }
 
 @media only screen and (max-width: 300px) {
