@@ -1,33 +1,27 @@
 {% extends "nav.html" %}
 {% block content %}
     <div class="content">
-        <div class="container-bg-modify">
-            <div class="container-form">
-                <form action="/add/" enctype="multipart/form-data" method="post">
-                    <label for="name">Add name of the article</label><br>
-                    <input name="name" id="name" type="text" placeholder="Name of the article"><br>
-                    <label for="description">Add description of the article</label><br>
-                    <input name="description" id="description" type="text" placeholder="Description of the article"><br>
-                    <label for="type">Add type of the article</label><br>
-                    <input name="type" id="type" type="text" placeholder="Type of the article"><br>
-                    <label for="group">Add group of the article</label><br>
-                    <input name="group" id="group" type="text" placeholder="Group of the article"><br>
-                    <label for="colour">Add colour of the article</label><br>
-                    <input name="colour" id="colour" type="text" placeholder="Colour of the article"><br>
-                    <input class="img-input" name="image" id="image" type="file" accept="image/*">
-                    <label for="image">
-                        Upload image
-                        <span class="container-img-modify">
-                        <img class="img-search" accept="image/*"
-                             src={{ url_for('static', filename='Image/upload.png') }}>
-                    </span>
-                    </label>
-                    <div class="container-submit">
-                        <input type="submit" class="btn-add" value="Aggiungi">
+        {% include 'tools/search-bar.html' %}
+        <object class="divider" data={{ url_for('static', filename='Image/wave-1.svg') }}></object>
+        <div class="container-collection">
+            <div class="sub-title">Modify Collection</div>
+            <div class="container-collections">
+                {% for c in cols %}
+                    <div class="container-c">
+                        <a href={{ url_for('collection', col=c[1]) }}>
+                            <div class="card card-radius">
+                                <img class="bg-image border-radius"
+                                     src={{ url_for('get_image', image_name=c[2] , collection=c[1], dim=340) }}>
+                                <div class="card-body card-t">
+                                    <p class="card-text card-sub-title">{{ c[0] }}</p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </form>
+                {% endfor %}
+                <button class="card-btn" onclick="window.location.href='{{ url_for('add') }}';">Add collection</button>
             </div>
         </div>
-        <object class="divider" data={{ url_for('static', filename='Image/wave-2.svg') }}></object>
     </div>
+    <object class="divider bg-div" data={{ url_for('static', filename='Image/wave-2.svg') }}></object>
 {% endblock content %}

@@ -67,22 +67,41 @@ def char_image(image_name: str, collection: str):
                            cols=get_collections_name())
 
 
-@app.route('/add/', methods=['GET', 'POST'])
+@app.route('/add/')
 def add():
-    name = request.form['name']
-    description = request.form['description']
-    type = request.form['type']
-    group = request.form['group']
-    colour = request.form['colour']
-    image = request.files['image']
-    print(name, description, type, group, colour, image.filename)
-    return redirect(url_for('home'))
+    return render_template('add_collection.html', page=1)
+
+
+@app.route('/add/', methods=['GET', 'POST'])
+def add_post():
+    if request.method == 'POST':
+        names = []
+        name = request.form['name']
+        i = request.files.getlist("image")
+        for j in i:
+            names.append(j.filename)
+            print(j.filename)
+    return render_template('add_collection.html', page=2, names=names)
 
 
 @app.route('/modify')
 def modify():
     load()
-    return render_template('modify.html', active="Modify", cols=get_collections_name())
+    cs = []
+    for i in get_cols().get_collections():
+        row = []
+        row.append(i.get_name())
+        row.append(i.get_id())
+        row.append(i.get_random_image()['id'])
+        cs.append(row)
+    return render_template('modify.html', active="Modify", cols=cs)
+
+
+@app.route('/collection/<col>')
+def collection(col):
+    load()
+    return render_template('modify_collection.html', active="Modify",
+                           catalog=get_cols().get_collection_from_id(col).get_catalog(), c_id=col)
 
 
 if __name__ == '__main__':

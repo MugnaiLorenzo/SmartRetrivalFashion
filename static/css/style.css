@@ -7,6 +7,8 @@
 @import url('result.css');
 @import url('modify.css');
 @import url('search-bar.css');
+@import url('modify_collection.css');
+@import url('add_collection.css');
 
 :root{
     /*Colori*/
@@ -16,6 +18,7 @@
     --nav-dropdown-color: #5B5593;
     --nav-text-color: #FFFFFF;
     --nav-text-select-color: #C93F8D;
+    --border: black;
     /*Font*/
     --font-nav-tile: 'Montserrat', sans-serif;
     --font-nav-li: 'Open Sans', sans-serif;

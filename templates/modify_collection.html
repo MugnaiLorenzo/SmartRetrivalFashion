@@ -1,0 +1,21 @@
+{% extends "nav.html" %}
+{% block content %}
+    <div class="content">
+        {% include 'tools/search-bar.html' %}
+        <object class="divider" data={{ url_for('static', filename='Image/wave-1.svg') }}></object>
+        <div class="container-collection">
+            <div class="sub-title">Images</div>
+            <div class="container-collections">
+                {% for cat in catalog %}
+                    <div class="cont-img">
+                        <a href={{ url_for('char_image', image_name=cat['id'], collection=c_id) }}>
+                            <img src={{ url_for('get_image', image_name=cat['id'], collection=c_id, dim=150) }}>
+                        </a>
+
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <object class="divider bg-div" data={{ url_for('static', filename='Image/wave-2.svg') }}></object>
+{% endblock content %}

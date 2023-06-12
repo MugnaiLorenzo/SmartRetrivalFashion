@@ -1,0 +1,67 @@
+{% extends "nav.html" %}
+{% block content %}
+    <div class="content bg-svg">
+        <div class="container-form">
+            {% if page == 1 %}
+                <div class="container-form-title sub-title">
+                    Add collection
+                </div>
+                <div class="disp-flex">
+                    <form action="/add/" enctype="multipart/form-data" method="post">
+                        <input name="name" id="name" type="text" placeholder="Name of the collection"><br>
+                        <input class="img-input" name="image" id="image" type="file" accept="image/*" multiple>
+                        <label for="image">
+                            Upload image
+                            <span class="container-img-modify">
+                            <img class="img-search" accept="image/*"
+                                 src={{ url_for('static', filename='Image/upload.png') }}>
+                        </span>
+                        </label>
+                        <div class="container-submit">
+                            <input type="submit" class="btn-add" value="Aggiungi">
+                        </div>
+                    </form>
+                </div>
+            {% else %}
+                <div class="container-form-title sub-title">
+                    Add metadata
+                </div>
+                <div class="disp-flex w-100">
+                    <form class="w-100" action="/add/" enctype="multipart/form-data" method="post">
+                        <div class="table-form">
+                            <div class="row-form">
+                                <div class="col-form-15">Image</div>
+                                <div class="col-form-15">Name</div>
+                                <div class="col-form-30">Description</div>
+                                <div class="col-form-15">Type</div>
+                                <div class="col-form-15">Group</div>
+                            </div>
+                        </div>
+                        {% for n in names %}
+                            <div class="table-form">
+                                <div class="row-form">
+                                    <div class="col-form-15 h-a">{{ n }}</div>
+                                    <div class="col-form-15">
+                                        <input name="name" id="name" type="text"><br>
+                                    </div>
+                                    <div class="col-form-30">
+                                        <input name="name" id="description" type="text"><br>
+                                    </div>
+                                    <div class="col-form-15">
+                                        <input name="name" id="type" type="text"><br>
+                                    </div>
+                                    <div class="col-form-15">
+                                        <input name="name" id="group" type="text"><br>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="container-submit">
+                            <input type="submit" class="btn-add" value="Aggiungi">
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}
