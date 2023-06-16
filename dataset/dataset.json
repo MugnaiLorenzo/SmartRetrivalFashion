@@ -1,0 +1,30 @@
+[
+  {
+    "collection": 1,
+    "image_path": "dataset\\Images\\collection_1",
+    "metadata_path": "dataset\\Metadata\\collection_1.json",
+    "fclip_path": "dataset\\Fclip\\f_clip_1.pkl",
+    "name": "collection1"
+  },
+  {
+    "collection": 2,
+    "image_path": "dataset\\Images\\collection_2",
+    "metadata_path": "dataset\\Metadata\\collection_2.json",
+    "fclip_path": "dataset\\Fclip\\f_clip_2.pkl",
+    "name": "collection2"
+  },
+  {
+    "collection": 3,
+    "image_path": "dataset\\Images\\collection_3",
+    "metadata_path": "dataset\\Metadata\\collection_3.json",
+    "fclip_path": "dataset\\Fclip\\f_clip_3.pkl",
+    "name": "collection3"
+  },
+  {
+    "collection": 4,
+    "image_path": "dataset\\Images\\collection_4",
+    "metadata_path": "dataset\\Metadata\\collection_4.json",
+    "fclip_path": "dataset\\Fclip\\f_clip_4.pkl",
+    "name": "collection4"
+  }
+]

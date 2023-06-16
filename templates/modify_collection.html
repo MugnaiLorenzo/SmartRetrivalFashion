@@ -1,19 +1,42 @@
 {% extends "nav.html" %}
 {% block content %}
     <div class="content">
-        {% include 'tools/search-bar.html' %}
-        <object class="divider" data={{ url_for('static', filename='Image/wave-1.svg') }}></object>
         <div class="container-collection">
-            <div class="sub-title">Images</div>
+            <div class="sub-title">Images of {{ col_name }}</div>
             <div class="container-collections">
-                {% for cat in catalog %}
+                {% for cat in range(l_i,l_s) %}
                     <div class="cont-img">
-                        <a href={{ url_for('char_image', image_name=cat['id'], collection=c_id) }}>
-                            <img src={{ url_for('get_image', image_name=cat['id'], collection=c_id, dim=150) }}>
+                        <a href={{ url_for('char_image', image_name=catalog[cat]['article_id'], collection=c_id) }}>
+                            <img src={{ url_for('get_image', image_name=catalog[cat]['article_id'], collection=c_id, dim=340) }}>
                         </a>
 
                     </div>
                 {% endfor %}
+            </div>
+            <div class="d-flex w-100">
+                <ul class="pagination pag">
+                    {% if page == "1" %}
+                        <li class="page-item disabled">
+                            <a class="page-link">Previous</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href={{ url_for('collection', col=c_id, page=page_p) }}>Previous</a>
+                        </li>
+                    {% endif %}
+                    <li class="page-item active">
+                        <a class="page-link" href="#">{{ page }} <span class="sr-only">(current)</span></a>
+                    </li>
+                    {% if page == n_page %}
+                        <li class="page-item disabled">
+                            <a class="page-link">Next</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href={{ url_for('collection', col=c_id, page=page_n) }}>Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
     </div>

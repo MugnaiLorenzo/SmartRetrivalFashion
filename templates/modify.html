@@ -6,7 +6,7 @@
         <div class="container-collection">
             <div class="sub-title">Modify Collection</div>
             <div class="container-collections">
-                {% for c in cols %}
+                {% for c in collections %}
                     <div class="container-c">
                         <a href={{ url_for('collection', col=c[1]) }}>
                             <div class="card card-radius">
