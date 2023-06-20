@@ -22,13 +22,10 @@
     background: white;
 }
 
-.card-radius:hover {
-    height: 400px;
-}
-
-.card-radius img:hover {
+.container-c a:hover .card-radius img{
     height: 360px;
 }
+
 
 .card-t {
     text-align: center;

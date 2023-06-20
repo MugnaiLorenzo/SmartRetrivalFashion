@@ -1,7 +1,10 @@
-.content-add{
+.content-add {
     margin-top: 50px;
 }
 
+.hide {
+    display: none;
+}
 
 .bg-svg {
     /*background: url("../Image/bg-add-4.svg") no-repeat;*/

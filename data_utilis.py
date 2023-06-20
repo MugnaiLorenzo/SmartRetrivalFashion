@@ -16,6 +16,7 @@ server_base_path = Path(__file__).absolute().parent.absolute()
 dataset_root = Path(__file__).absolute().parent.absolute() / 'dataset'
 image_root = dataset_root / 'Images'
 data_path = Path(__file__).absolute().parent.absolute() / 'data'
+metadata_path = dataset_root / "Metadata"
 
 
 def load():
@@ -132,6 +133,7 @@ def get_collection_for_modify():
         cs.append(row)
     return cs
 
+
 def get_image_from_collection(id: int):
     col = get_collection_from_index(id)
     n_col = col.count()
@@ -195,6 +197,48 @@ def get_label_from_image(url: str, col_id: str):
         row.append(collection.name)
         im.append(row)
     return im
+
+
+def get_len_of_collection():
+    f = open(dataset_root / 'dataset.json')
+    data = json.load(f)
+    f.close()
+    return len(data)
+
+
+def embedding_image(image_list, path):
+    fclip = FashionCLIP('fashion-clip')
+    print('A')
+    print(image_list)
+    images_embedded = fclip.encode_images(image_list, batch_size=8)
+    with open(path, 'wb+') as f:
+        pickle.dump(images_embedded, f)
+
+
+def set_dataset_json(name):
+    f = open(dataset_root / 'dataset.json')
+    data = json.load(f)
+    f.close()
+    id = len(data) + 1
+    n = "f_clip_" + str(id) + ".pkl"
+    fclip_path = str(dataset_root) + "/Fclip/f_clip_" + str(id) + ".pkl"
+    fclip_path_url = "dataset\\Fclip\\" + n
+    n = "collection_" + str(id) + ".json"
+    json_path = "dataset\\Metadata\\" + n
+    n = "collection_" + str(id)
+    image_path = "dataset\\Images\\" + n
+    row = {
+        "collection": id,
+        "image_path": str(image_path),
+        "metadata_path": str(json_path),
+        "fclip_path": str(fclip_path_url),
+        "name": name
+    }
+    data.append(row)
+    print(data)
+    with open(dataset_root / 'dataset.json', 'w') as outfile:
+        json.dump(data, outfile)
+    return fclip_path
 
 
 class TargetPad:

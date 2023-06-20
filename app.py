@@ -1,8 +1,10 @@
+import json
 import math
 import os
 import random
 import data_utilis
 import PIL.Image
+import shutil
 
 from flask import Flask, render_template, send_file, request, url_for, redirect
 from io import BytesIO
@@ -26,7 +28,8 @@ def home():  # put application's code here
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 def search():  # put application's code here
-    load()
+    if not is_load():
+        load()
     if request.method == 'POST':
         search = request.form['search']
         collection = request.form['collection']
@@ -74,11 +77,12 @@ def add():
 @app.route('/add/', methods=['GET', 'POST'])
 def add_post():
     global i
+    global col_name
     names = []
     images = []
     len = 0
     if request.method == 'POST':
-        name = request.form['name']
+        col_name = request.form['name']
         i = request.files.getlist("image")
         for j in i:
             len = len + 1
@@ -100,20 +104,64 @@ def modify():
 @app.route('/collection/<col>')
 @app.route('/collection/<col>/<page>')
 def collection(col, page: Optional[int] = 1, operation: Optional[str] = "s"):
+    n = 18
     if not is_load():
         load()
     catalog, n_col, col_name = get_image_from_collection(int(col))
-    n_page = n_col / 15
+    n_page = n_col / n
     n_page = str(int(n_page))
     if str(page) == n_page:
         ls = int(n_col)
     else:
-        ls = int(page) * 15 + 15
-    li = int(page) * 15
+        ls = int(page) * n + n
+    li = int(page) * n
     page_p = int(page) - 1
     page_n = int(page) + 1
     return render_template('modify_collection.html', active="Modify", l_i=li, l_s=ls, n_page=n_page, catalog=catalog,
                            n_col=n_col, c_id=col, page=page, page_n=page_n, page_p=page_p, col_name=col_name)
+
+
+@app.route('/load', methods=['GET', 'POST'])
+def load_collection():
+    n = get_len_of_collection() + 1
+    par = []
+    images = []
+    if request.method == 'POST':
+        cn = col_name.split(" ")
+        c_name = ""
+        for c in cn:
+            c_name = c_name + "-" + c
+        path = str(image_root) + "/" + "collection_" + str(n)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        else:
+            shutil.rmtree(path)
+            os.makedirs(path)
+        # app.config['UPLOAD_IMG'] =
+        for j in i:
+            name = request.form["name" + j.filename]
+            description = request.form["description" + j.filename]
+            type = request.form["type" + j.filename]
+            group = request.form["group" + j.filename]
+            colour = request.form["colour" + j.filename]
+            id = j.filename.split(".")
+            row = {
+                "article_id": id[0],
+                "prod_name": name,
+                "product_type_name": type,
+                "product_group_name": group,
+                "colour_group_name": colour,
+                "detail_desc": description
+            }
+            par.append(row)
+            shutil.move(server_base_path / "static" / "Image" / "temporary_file" / j.filename, path)
+            images.append(path + "/" + str(j.filename))
+        json_path = str(data_utilis.metadata_path) + "/collection_" + str(n) + ".json"
+        with open(json_path, 'w') as outfile:
+            json.dump(par, outfile)
+        fclip_path = data_utilis.set_dataset_json(c_name)
+        data_utilis.embedding_image(images, fclip_path)
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':

@@ -27,7 +27,7 @@
                     Add metadata
                 </div>
                 <div class="disp-flex w-100">
-                    <form class="w-100" action="/add/" enctype="multipart/form-data" method="post">
+                    <form class="w-100" action="/load" enctype="multipart/form-data" method="post">
                         {% for i in range(len) %}
                             <div class="container-drop">
                                 <div class="drop-title-container">
@@ -40,19 +40,26 @@
                                 </div>
                                 <div class="drop-form">
                                     <div>
-                                        <input name="name" id="name" type="text" placeholder="Name"><br>
+                                        <input name={{ "name"+names[i] }} id={{ "name"+names[i] }} type="text"
+                                               placeholder="Name"><br>
                                     </div>
                                     <div>
-                                        <input name="description" id="description" type="text"
+                                        <input name={{ "description"+names[i] }} id={{ "description"+names[i] }}
+                                               type="text"
                                                placeholder="Description"><br>
                                     </div>
                                     <div>
-                                        <input name="type" id="type" type="text" placeholder="Type"><br>
+                                        <input name={{ "type"+names[i] }} id={{ "type"+names[i] }} type="text"
+                                               placeholder="Type"><br>
                                     </div>
                                     <div>
-                                        <input name="group" id="group" type="text" placeholder="Group"><br>
+                                        <input name={{ "group"+names[i] }} id={{ "group"+names[i] }} type="text"
+                                               placeholder="Group"><br>
                                     </div>
-
+                                    <div>
+                                        <input name={{ "colour"+names[i] }} id={{ "colour"+names[i] }} type="text"
+                                               placeholder="Colour"><br>
+                                    </div>
                                 </div>
                             </div>
                         {% endfor %}
