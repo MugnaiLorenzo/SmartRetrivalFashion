@@ -19,9 +19,9 @@ app.config['UPLOAD_TEMP'] = server_base_path / "static" / "Image" / "temporary_f
 
 @app.route('/')
 @app.route('/home')
-def home():  # put application's code here
+def home():  # put application's code here:
     load()
-    images = get_random_images(12)
+    images = get_random_images(6)
     return render_template('base.html', names=images, active="Home", cols=get_collections_name())
 
 
@@ -108,13 +108,15 @@ def collection(col, page: Optional[int] = 1, operation: Optional[str] = "s"):
     if not is_load():
         load()
     catalog, n_col, col_name = get_image_from_collection(int(col))
+    if n_col < n:
+        n = n_col
     n_page = n_col / n
     n_page = str(int(n_page))
     if str(page) == n_page:
         ls = int(n_col)
     else:
         ls = int(page) * n + n
-    li = int(page) * n
+    li = int(page) * n - n
     page_p = int(page) - 1
     page_n = int(page) + 1
     return render_template('modify_collection.html', active="Modify", l_i=li, l_s=ls, n_page=n_page, catalog=catalog,
@@ -130,7 +132,7 @@ def load_collection():
         cn = col_name.split(" ")
         c_name = ""
         for c in cn:
-            c_name = c_name + "-" + c
+            c_name = c_name + c
         path = str(image_root) + "/" + "collection_" + str(n)
         if not os.path.exists(path):
             os.makedirs(path)
@@ -161,6 +163,14 @@ def load_collection():
             json.dump(par, outfile)
         fclip_path = data_utilis.set_dataset_json(c_name)
         data_utilis.embedding_image(images, fclip_path)
+    return redirect(url_for('home'))
+
+
+@app.route('/delete_collection/<col>')
+def delete_collection(col):
+    if not is_load():
+        load()
+    data_utilis.delete_col(col)
     return redirect(url_for('home'))
 
 

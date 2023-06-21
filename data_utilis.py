@@ -1,5 +1,8 @@
 import csv
+import os
 import pickle
+import shutil
+
 import torchvision.transforms.functional as F
 import PIL.Image
 import chromadb
@@ -239,6 +242,57 @@ def set_dataset_json(name):
     with open(dataset_root / 'dataset.json', 'w') as outfile:
         json.dump(data, outfile)
     return fclip_path
+
+
+def delete_col(id):
+    n = "f_clip_" + str(id) + ".pkl"
+    fclip_path = "dataset\\Fclip\\" + n
+    n = "collection_" + str(id) + ".json"
+    json_path = "dataset\\Metadata\\" + n
+    n = "collection_" + str(id)
+    image_path = "dataset\\Images\\" + n
+    os.remove(server_base_path / fclip_path)
+    os.remove(server_base_path / json_path)
+    shutil.rmtree(server_base_path / image_path)
+    f = open(dataset_root / 'dataset.json')
+    data = json.load(f)
+    f.close()
+    n = 1
+    new_data = []
+    for d in data:
+        if int(d['collection']) < int(id):
+            new_data.append(d)
+            n = n + 1
+        if int(d['collection']) > int(id):
+            a = "f_clip_" + str(d['collection']) + ".pkl"
+            fclip_path = "dataset\\Fclip\\" + a
+            a = "collection_" + str(d['collection']) + ".json"
+            json_path = "dataset\\Metadata\\" + a
+            a = "collection_" + str(d['collection'])
+            image_path = "dataset\\Images\\" + a
+            a = "f_clip_" + str(n) + ".pkl"
+            new_fclip_path = "dataset\\Fclip\\" + a
+            a = "collection_" + str(n) + ".json"
+            new_json_path = "dataset\\Metadata\\" + a
+            a = "collection_" + str(n)
+            new_image_path = "dataset\\Images\\" + a
+            # print(dataset_root / fclip_path)
+            # print(dataset_root / new_fclip_path)
+            # print(dataset_root / json_path)
+            # print(dataset_root / new_json_path)
+            # print(dataset_root / image_path)
+            # print(dataset_root / new_image_path)
+            os.rename(server_base_path / image_path, server_base_path / new_image_path)
+            os.rename(server_base_path / json_path, server_base_path / new_json_path)
+            os.rename(server_base_path / fclip_path, server_base_path / new_fclip_path)
+            d['collection'] = n
+            d['image_path'] = new_image_path
+            d['metadata_path'] = new_json_path
+            d['fclip_path'] = new_fclip_path
+            new_data.append(d)
+            n = n + 1
+    with open(dataset_root / 'dataset.json', 'w') as outfile:
+        json.dump(new_data, outfile)
 
 
 class TargetPad:

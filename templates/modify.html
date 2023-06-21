@@ -8,9 +8,12 @@
             <div class="container-collections">
                 {% for c in collections %}
                     <div class="container-c">
+                        <a href={{ url_for('delete_collection', col=c[1]) }}>
+                            <img class="img-delete" src={{ url_for('static', filename='Image/delete.png') }}>
+                        </a>
                         <a href={{ url_for('collection', col=c[1]) }}>
                             <div class="card card-radius">
-                                <img class="bg-image border-radius"
+                                <img class="bg-image border-radius" n
                                      src={{ url_for('get_image', image_name=c[2] , collection=c[1], dim=340) }}>
                                 <div class="card-body card-t">
                                     <p class="card-text card-sub-title">{{ c[0] }}</p>

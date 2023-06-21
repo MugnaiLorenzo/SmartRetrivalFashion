@@ -6,6 +6,7 @@
 }
 
 .container-c {
+    position: relative;
     width: 46%;
     margin: 2%;
     display: flex;
@@ -22,7 +23,7 @@
     background: white;
 }
 
-.container-c a:hover .card-radius img{
+.container-c a:hover .card-radius img {
     height: 360px;
 }
 
@@ -47,4 +48,29 @@
     border: 0;
     font-family: var(--font-title);
     font-size: 20px;
+}
+
+.container-c button {
+    /*display: none;*/
+}
+
+.container-c button .img-delete {
+    z-index: 3;
+    width: 30px;
+    position: relative;
+    top: -150px;
+    left: 320px;
+    color: black;
+}
+
+a .img-delete {
+    z-index: 3;
+    width: 30px;
+    position: relative;
+    top: -150px;
+    left: 320px;
+}
+
+.img-delete:hover {
+    width: 32px;
 }
