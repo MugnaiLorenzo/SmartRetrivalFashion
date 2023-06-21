@@ -19,3 +19,16 @@
     width: 80px !important;
     text-align: center;
 }
+
+.container-form-title-modify {
+    text-align: center;
+    color: var(--primary-color) !important;
+}
+
+.container-form-modify {
+    background: white;
+}
+
+.color-black {
+    color: black !important;
+}

@@ -81,6 +81,16 @@ def get_collections_name():
     return col_name
 
 
+def get_collections_name_from_id(id):
+    col_name = ""
+    i = 0
+    for col in chroma_client.list_collections():
+        i = i + 1
+        if i == id:
+            return col.name
+    return col_name
+
+
 def get_random_images(n_range):
     images = []
     for i in range(0, n_range):
@@ -211,8 +221,6 @@ def get_len_of_collection():
 
 def embedding_image(image_list, path):
     fclip = FashionCLIP('fashion-clip')
-    print('A')
-    print(image_list)
     images_embedded = fclip.encode_images(image_list, batch_size=8)
     with open(path, 'wb+') as f:
         pickle.dump(images_embedded, f)
@@ -238,7 +246,6 @@ def set_dataset_json(name):
         "name": name
     }
     data.append(row)
-    print(data)
     with open(dataset_root / 'dataset.json', 'w') as outfile:
         json.dump(data, outfile)
     return fclip_path
@@ -276,12 +283,6 @@ def delete_col(id):
             new_json_path = "dataset\\Metadata\\" + a
             a = "collection_" + str(n)
             new_image_path = "dataset\\Images\\" + a
-            # print(dataset_root / fclip_path)
-            # print(dataset_root / new_fclip_path)
-            # print(dataset_root / json_path)
-            # print(dataset_root / new_json_path)
-            # print(dataset_root / image_path)
-            # print(dataset_root / new_image_path)
             os.rename(server_base_path / image_path, server_base_path / new_image_path)
             os.rename(server_base_path / json_path, server_base_path / new_json_path)
             os.rename(server_base_path / fclip_path, server_base_path / new_fclip_path)

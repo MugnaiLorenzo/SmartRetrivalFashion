@@ -1,6 +1,28 @@
 {% extends "nav.html" %}
 {% block content %}
     <div class="content">
+        <div class="container-form-modify">
+            <div class="disp-flex">
+                <div class="container-form-title-modify sub-title-add">
+                    Add Image at {{ col_name }}
+                </div>
+                <form action="/add_image_at_collection" enctype="multipart/form-data" method="post">
+                    <input style="display: none" name="name" id="name" type="text" value={{ c_id }}><br>
+                    <input class="img-input" name="image" id="image" type="file" accept="image/*" multiple>
+                    <label class="color-black" for="image">
+                        Upload image
+                        <span class="container-img-modify">
+                            <img class="img-search" accept="image/*"
+                                 src={{ url_for('static', filename='Image/upload-black.png') }}>
+                        </span>
+                    </label>
+                    <div class="container-submit">
+                        <input type="submit" class="btn-add" value="Aggiungi">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <object class="divider" data={{ url_for('static', filename='Image/wave-1.svg') }}></object>
         <div class="container-collection">
             <div class="sub-title">Images of {{ col_name }}</div>
             <div class="container-collections">

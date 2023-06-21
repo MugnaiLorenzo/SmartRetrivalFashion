@@ -1,0 +1,51 @@
+{% extends "nav.html" %}
+{% block content %}
+    <div class="content">
+        <div class="container-form-title sub-title">
+            Add metadata
+        </div>
+        <div class="disp-flex w-100 bg-p">
+            <form class="w-100" action="/load_image" enctype="multipart/form-data" method="post">
+                {% for i in range(len) %}
+                    <div class="container-drop">
+                        <div class="drop-title-container">
+                            <div class="drop-title">
+                                {{ names[i] }}
+                            </div>
+                            <div class="drop-img">
+                                <img class="image-drop" src="{{ url_for('static', filename=image[i]) }}">
+                            </div>
+                        </div>
+                        <div class="drop-form">
+                            <div>
+                                <input name={{ "name"+names[i] }} id={{ "name"+names[i] }} type="text"
+                                       placeholder="Name"><br>
+                            </div>
+                            <div>
+                                <input name={{ "description"+names[i] }} id={{ "description"+names[i] }}
+                                       type="text"
+                                       placeholder="Description"><br>
+                            </div>
+                            <div>
+                                <input name={{ "type"+names[i] }} id={{ "type"+names[i] }} type="text"
+                                       placeholder="Type"><br>
+                            </div>
+                            <div>
+                                <input name={{ "group"+names[i] }} id={{ "group"+names[i] }} type="text"
+                                       placeholder="Group"><br>
+                            </div>
+                            <div>
+                                <input name={{ "colour"+names[i] }} id={{ "colour"+names[i] }} type="text"
+                                       placeholder="Colour"><br>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="container-submit">
+                    <input type="submit" class="btn-add" value="Aggiungi">
+                </div>
+            </form>
+        </div>
+    </div>
+    <object class="divider bg-div" data={{ url_for('static', filename='Image/wave-2.svg') }}></object>
+{% endblock content %}

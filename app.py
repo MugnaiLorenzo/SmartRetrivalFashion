@@ -139,7 +139,6 @@ def load_collection():
         else:
             shutil.rmtree(path)
             os.makedirs(path)
-        # app.config['UPLOAD_IMG'] =
         for j in i:
             name = request.form["name" + j.filename]
             description = request.form["description" + j.filename]
@@ -171,6 +170,69 @@ def delete_collection(col):
     if not is_load():
         load()
     data_utilis.delete_col(col)
+    return redirect(url_for('home'))
+
+
+@app.route('/add_image_at_collection', methods=['GET', 'POST'])
+def add_image_at_collection():
+    global i
+    global col_id
+    names = []
+    images = []
+    len = 0
+    path = str(server_base_path) + "/static/Image/temporary_file"
+    if not os.path.exists(path):
+        os.makedirs(path)
+    else:
+        shutil.rmtree(path)
+        os.makedirs(path)
+    if request.method == 'POST':
+        col_id = request.form['name']
+        i = request.files.getlist("image")
+        for j in i:
+            len = len + 1
+            names.append(j.filename)
+            j.save(os.path.join(app.config['UPLOAD_TEMP'], j.filename))
+            path = "Image/temporary_file/" + j.filename
+            images.append(path)
+    return render_template('add_metadata.html', names=names, image=images, len=len)
+
+
+@app.route('/load_image', methods=['GET', 'POST'])
+def load_image():
+    if not is_load():
+        load()
+    images = []
+    if request.method == 'POST':
+        path = str(image_root) + "/" + "collection_" + col_id
+        collection = get_collection_from_index(int(col_id))
+        par = collection.peek()['metadatas']
+        for p in par:
+            images.append(path + "/" + str(p['article_id']) + ".jpg")
+        for j in i:
+            name = request.form["name" + j.filename]
+            description = request.form["description" + j.filename]
+            type = request.form["type" + j.filename]
+            group = request.form["group" + j.filename]
+            colour = request.form["colour" + j.filename]
+            id = j.filename.split(".")
+            row = {
+                "article_id": id[0],
+                "prod_name": name,
+                "product_type_name": type,
+                "product_group_name": group,
+                "colour_group_name": colour,
+                "detail_desc": description
+            }
+            par.append(row)
+            shutil.move(server_base_path / "static" / "Image" / "temporary_file" / j.filename, path)
+            images.append(path + "/" + str(j.filename))
+        json_path = str(data_utilis.metadata_path) + "/collection_" + str(col_id) + ".json"
+        with open(json_path, 'w') as outfile:
+            json.dump(par, outfile)
+        n = "f_clip_" + str(col_id) + ".pkl"
+        fclip_path = "dataset\\Fclip\\" + n
+        data_utilis.embedding_image(images, fclip_path)
     return redirect(url_for('home'))
 
 
