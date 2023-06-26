@@ -1,4 +1,3 @@
-import csv
 import os
 import pickle
 import shutil
@@ -13,7 +12,7 @@ from fashion_clip.fashion_clip import FashionCLIP
 from pathlib import Path
 from typing import Optional
 from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normalize
-from collection import Collections, Collection
+from chromadb.config import Settings
 
 server_base_path = Path(__file__).absolute().parent.absolute()
 dataset_root = Path(__file__).absolute().parent.absolute() / 'dataset'
@@ -25,16 +24,32 @@ metadata_path = dataset_root / "Metadata"
 def load():
     global chroma_client
     global fclip
-    global n_collection
-    global loaded
-    loaded = True
-    n_collection = 0
-    chroma_client = chromadb.Client()
+    persist_path = str(dataset_root) + "/chroma"
+    chroma_client = chromadb.Client(Settings(
+        chroma_db_impl="duckdb+parquet",
+        persist_directory=persist_path))
+    print(chroma_client.list_collections())
+    fclip = FashionCLIP('fashion-clip')
+
+
+def update_chroma():
+    global chroma_client
+    global fclip
+    persist_path = str(dataset_root) + "/chroma"
+    if not os.path.exists(persist_path):
+        os.makedirs(persist_path)
+    else:
+        shutil.rmtree(persist_path)
+        os.makedirs(persist_path)
+    if is_load():
+        chroma_client.reset()
+    chroma_client = chromadb.Client(Settings(
+        chroma_db_impl="duckdb+parquet",
+        persist_directory=persist_path))
     fclip = FashionCLIP('fashion-clip')
     f = open(dataset_root / 'dataset.json')
     data = json.load(f)
     for i in data:
-        n_collection = n_collection + 1
         collection = chroma_client.create_collection(name=i['name'])
         s = str(server_base_path) + "/" + i['metadata_path']
         f = open(s, encoding="utf8")
@@ -55,6 +70,7 @@ def load():
             metadatas=metadatas,
             ids=ids
         )
+    chroma_client.persist()
 
 
 def get_n_collection():
@@ -108,7 +124,7 @@ def get_random_images(n_range):
 
 def is_load():
     try:
-        if loaded is None:
+        if chroma_client is None:
             return False
         else:
             return True

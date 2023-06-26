@@ -19,7 +19,7 @@ app.config['UPLOAD_TEMP'] = server_base_path / "static" / "Image" / "temporary_f
 
 @app.route('/')
 @app.route('/home')
-def home():  # put application's code here:
+def home():
     load()
     images = get_random_images(6)
     return render_template('base.html', names=images, active="Home", cols=get_collections_name())
@@ -27,7 +27,7 @@ def home():  # put application's code here:
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
-def search():  # put application's code here
+def search():
     if not is_load():
         load()
     if request.method == 'POST':
@@ -119,8 +119,9 @@ def collection(col, page: Optional[int] = 1, operation: Optional[str] = "s"):
     li = int(page) * n - n
     page_p = int(page) - 1
     page_n = int(page) + 1
-    return render_template('modify_collection.html', active="Modify", l_i=li, l_s=ls, n_page=n_page, catalog=catalog,
-                           n_col=n_col, c_id=col, page=page, page_n=page_n, page_p=page_p, col_name=col_name)
+    return render_template('modify_collection.html', active="Modify", l_i=li, l_s=ls, n_page=int(n_page),
+                           catalog=catalog, n_col=n_col, c_id=col, page=int(page), page_n=page_n, page_p=page_p,
+                           col_name=col_name)
 
 
 @app.route('/load', methods=['GET', 'POST'])
@@ -162,6 +163,7 @@ def load_collection():
             json.dump(par, outfile)
         fclip_path = data_utilis.set_dataset_json(c_name)
         data_utilis.embedding_image(images, fclip_path)
+    update_chroma()
     return redirect(url_for('home'))
 
 
@@ -170,6 +172,7 @@ def delete_collection(col):
     if not is_load():
         load()
     data_utilis.delete_col(col)
+    update_chroma()
     return redirect(url_for('home'))
 
 
@@ -233,6 +236,7 @@ def load_image():
         n = "f_clip_" + str(col_id) + ".pkl"
         fclip_path = "dataset\\Fclip\\" + n
         data_utilis.embedding_image(images, fclip_path)
+    update_chroma()
     return redirect(url_for('home'))
 
 
