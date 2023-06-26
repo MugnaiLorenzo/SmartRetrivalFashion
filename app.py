@@ -242,5 +242,33 @@ def load_image():
     return redirect(url_for('home'))
 
 
+@app.route('/delete_image/<col>/<image>')
+def delete_image(col, image):
+    if not is_load():
+        load()
+    json_path = str(metadata_path) + "/collection_" + str(col) + ".json"
+    f_clip_path = str(dataset_root) + "/Fclip/f_clip_" + str(col) + ".pkl"
+    f = open(json_path)
+    data = json.load(f)
+    f.close()
+    new_data = []
+    images = []
+    for d in data:
+        if d['article_id'] == str(image):
+            name = d['article_id'] + ".jpg"
+            n = "collection_" + str(col)
+            path_i = image_root / n / name
+            os.remove(path_i)
+        else:
+            path_i = str(image_root) + "/collection_" + str(col) + "/" + d['article_id'] + ".jpg"
+            new_data.append(d)
+            images.append(path_i)
+    with open(json_path, 'w') as outfile:
+        json.dump(new_data, outfile)
+    data_utilis.embedding_image(images, f_clip_path)
+    update_chroma()
+    return redirect(url_for('collection', col=col))
+
+
 if __name__ == '__main__':
     app.run()

@@ -28,7 +28,6 @@ def load():
     chroma_client = chromadb.Client(Settings(
         chroma_db_impl="duckdb+parquet",
         persist_directory=persist_path))
-    print(chroma_client.list_collections())
     fclip = FashionCLIP('fashion-clip')
 
 

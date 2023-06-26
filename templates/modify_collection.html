@@ -28,6 +28,9 @@
             <div class="container-collections">
                 {% for cat in range(l_i,l_s) %}
                     <div class="cont-img">
+                        <a href={{ url_for('delete_image', col=c_id, image=catalog[cat]['article_id']) }}>
+                            <img class="img-delete" src={{ url_for('static', filename='Image/delete.png') }}>
+                        </a>
                         <a href={{ url_for('char_image', image_name=catalog[cat]['article_id'], collection=c_id) }}>
                             <img src={{ url_for('get_image', image_name=catalog[cat]['article_id'], collection=c_id, dim=340) }}>
                         </a>
