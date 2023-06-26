@@ -33,6 +33,7 @@ def load():
 
 
 def update_chroma():
+    print("UPDATE ...")
     global chroma_client
     global fclip
     persist_path = str(dataset_root) + "/chroma"

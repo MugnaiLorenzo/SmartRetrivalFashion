@@ -21,6 +21,8 @@ app.config['UPLOAD_TEMP'] = server_base_path / "static" / "Image" / "temporary_f
 @app.route('/home')
 def home():
     load()
+    if not data_utilis.is_load() or data_utilis.get_n_collection() == 0:
+        update_chroma()
     images = get_random_images(6)
     return render_template('base.html', names=images, active="Home", cols=get_collections_name())
 
