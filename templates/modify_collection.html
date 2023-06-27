@@ -8,7 +8,7 @@
                 </div>
                 <form action="/add_image_at_collection" enctype="multipart/form-data" method="post">
                     <input style="display: none" name="name" id="name" type="text" value={{ c_id }}><br>
-                    <input class="img-input" name="image" id="image" type="file" accept="image/*" multiple>
+                    <input class="img-input" name="image" id="image" type="file" accept="image/*" multiple onchange="success();">
                     <label class="color-black" for="image">
                         Upload image
                         <span class="container-img-modify">
@@ -16,6 +16,7 @@
                                  src={{ url_for('static', filename='Image/upload-black.png') }}>
                         </span>
                     </label>
+                    <label class="color-green" id="success">Success upload</label>
                     <div class="container-submit">
                         <input type="submit" class="btn-add" value="Aggiungi">
                     </div>
@@ -29,10 +30,11 @@
                 {% for cat in range(l_i,l_s) %}
                     <div class="cont-img">
                         <a href={{ url_for('delete_image', col=c_id, image=catalog[cat]['article_id']) }}>
-                            <img class="img-delete" src={{ url_for('static', filename='Image/delete.png') }}>
+                            <i class="fa-sharp fa-solid fa-trash img-delete"></i>
                         </a>
                         <a href={{ url_for('char_image', image_name=catalog[cat]['article_id'], collection=c_id) }}>
-                            <img src={{ url_for('get_image', image_name=catalog[cat]['article_id'], collection=c_id, dim=340) }}>
+                            <img class="bg-image"
+                                 src={{ url_for('get_image', image_name=catalog[cat]['article_id'], collection=c_id, dim=340) }}>
                         </a>
 
                     </div>

@@ -23,10 +23,6 @@
     background: white;
 }
 
-.container-c a:hover .card-radius img {
-    height: 360px;
-}
-
 
 .card-t {
     text-align: center;
@@ -65,12 +61,33 @@
 
 a .img-delete {
     z-index: 3;
-    width: 30px;
     position: relative;
     top: -150px;
     left: 320px;
+    color: black;
+    font-size: 20px;
 }
 
 .img-delete:hover {
-    width: 32px;
+    color: var(--primary-color);
+}
+
+.modify-container-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 767px) {
+    .container-c {
+        width: 96%;
+    }
+}
+
+@media only screen and (max-width: 410px) {
+    a .img-delete {
+        top: -100px;
+        left: 230px;
+    }
 }

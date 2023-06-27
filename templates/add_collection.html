@@ -1,15 +1,16 @@
 {% extends "nav.html" %}
 {% block content %}
-    <div class="content bg-svg">
-        <div class="container-form">
-            {% if page == 1 %}
-                <div class="container-form-title sub-title-add">
+    {% if page == 1 %}
+        <div class="content bg-svg">
+            <div class="container-form">
+                <div class="sub-title-add color-w">
                     Add collection
                 </div>
                 <div class="disp-flex">
                     <form action="/add/" enctype="multipart/form-data" method="post">
                         <input name="name" id="name" type="text" placeholder="Name of the collection"><br>
-                        <input class="img-input" name="image" id="image" type="file" accept="image/*" multiple>
+                        <input class="img-input" name="image" id="image" type="file" accept="image/*" multiple
+                               onchange="success();">
                         <label for="image">
                             Upload image
                             <span class="container-img-modify">
@@ -17,13 +18,18 @@
                                  src={{ url_for('static', filename='Image/upload.png') }}>
                         </span>
                         </label>
+                        <label class="color-green" id="success">Success upload</label>
                         <div class="container-submit">
                             <input type="submit" class="btn-add" value="Aggiungi">
                         </div>
                     </form>
                 </div>
-            {% else %}
-                <div class="container-form-title sub-title">
+            </div>
+        </div>
+    {% else %}
+        <div class="content bg-p">
+            <div class="container-form">
+                <div class="sub-title color-w">
                     Add metadata
                 </div>
                 <div class="disp-flex w-100">
@@ -68,7 +74,7 @@
                         </div>
                     </form>
                 </div>
-            {% endif %}
+            </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock content %}

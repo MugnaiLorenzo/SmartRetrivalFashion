@@ -9,11 +9,11 @@
                 {% for c in collections %}
                     <div class="container-c">
                         <a href={{ url_for('delete_collection', col=c[1]) }}>
-                            <img class="img-delete" src={{ url_for('static', filename='Image/delete.png') }}>
+                            <i class="fa-sharp fa-solid fa-trash img-delete"></i>
                         </a>
                         <a href={{ url_for('collection', col=c[1]) }}>
                             <div class="card card-radius">
-                                <img class="bg-image border-radius" n
+                                <img class="bg-image border-radius"
                                      src={{ url_for('get_image', image_name=c[2] , collection=c[1], dim=340) }}>
                                 <div class="card-body card-t">
                                     <p class="card-text card-sub-title">{{ c[0] }}</p>
@@ -22,6 +22,8 @@
                         </a>
                     </div>
                 {% endfor %}
+            </div>
+            <div class="modify-container-button">
                 <button class="card-btn" onclick="window.location.href='{{ url_for('add') }}';">Add collection</button>
             </div>
         </div>

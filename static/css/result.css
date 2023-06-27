@@ -1,8 +1,33 @@
-.cont-title{
+.cont-title {
     width: 100%;
     text-align: center;
     font-size: 70px;
     font-family: var(--font-title);
     text-transform: uppercase;
     color: white;
+}
+
+@media only screen and (max-width: 700px) {
+    .cont-title {
+        font-size: 50px;
+    }
+}
+
+@media only screen and (max-width: 415px) {
+    .cont-title {
+        font-size: 35px;
+    }
+
+    .container-image .bg-image {
+        width: auto !important;
+        height: auto !important;
+    }
+
+    .container-image .bg-image img {
+        height: 250px;
+    }
+
+    .container-image .bg-image img:hover {
+        height: 260px;
+    }
 }

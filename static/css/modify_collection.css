@@ -32,3 +32,38 @@
 .color-black {
     color: black !important;
 }
+
+.color-green {
+    color: green !important;
+}
+
+#success{
+    display: none;
+}
+
+@media only screen and (max-width: 1215px) {
+    .cont-img {
+        width: 45%;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .cont-img {
+        width: 96%;
+    }
+}
+
+@media only screen and (max-width: 410px) {
+    .sub-title {
+        font-size: 25px;
+    }
+
+    .bg-image {
+        width: 250px;
+        height: 250px;
+    }
+
+    .container-image img:hover {
+        height: 260px;
+    }
+}
