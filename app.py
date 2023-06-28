@@ -5,6 +5,7 @@ import random
 import data_utilis
 import PIL.Image
 import shutil
+from gevent.pywsgi import WSGIServer
 
 from flask import Flask, render_template, send_file, request, url_for, redirect
 from io import BytesIO
@@ -271,6 +272,11 @@ def delete_image(col, image):
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    # Debug/Development
+    # port = int(os.environ.get('PORT', 5000))
+    # app.run(host='0.0.0.0', port=port, debug=True)
     # app.run()
+
+    # Production
+    http_server = WSGIServer(('', 5000), app)
+    http_server.serve_forever()
