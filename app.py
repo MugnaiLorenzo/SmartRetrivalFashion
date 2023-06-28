@@ -5,7 +5,6 @@ import random
 import data_utilis
 import PIL.Image
 import shutil
-from gevent.pywsgi import WSGIServer
 
 from flask import Flask, render_template, send_file, request, url_for, redirect
 from io import BytesIO
