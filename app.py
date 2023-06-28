@@ -271,12 +271,5 @@ def delete_image(col, image):
     return redirect(url_for('collection', col=col))
 
 
-if __name__ == '__main__':
-    # Debug/Development
-    # port = int(os.environ.get('PORT', 5000))
-    # app.run(host='0.0.0.0', port=port, debug=True)
+# if __name__ == '__main__':
     # app.run()
-
-    # Production
-    http_server = WSGIServer(('', 5000), app)
-    http_server.serve_forever()
