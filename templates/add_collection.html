@@ -7,7 +7,7 @@
                     Add collection
                 </div>
                 <div class="disp-flex">
-                    <form action="/add/" enctype="multipart/form-data" method="post">
+                    <form id="form_add_collection" action="/add/" enctype="multipart/form-data" method="post">
                         <input name="name" id="name" type="text" placeholder="Name of the collection"><br>
                         <input class="img-input" name="image" id="image" type="file" accept="image/*" multiple
                                onchange="success();">
@@ -18,6 +18,11 @@
                                  src={{ url_for('static', filename='Image/upload.png') }}>
                         </span>
                         </label>
+                        <div id="select_conteiner">
+                            <label for="rep">Choose a representative: (optional)</label><br>
+                            <select name="rep" id="rep">
+                            </select>
+                        </div>
                         <label class="color-green" id="success">Success upload</label>
                         <div class="container-submit">
                             <input type="submit" class="btn-add" value="Aggiungi">
@@ -76,5 +81,6 @@
                 </div>
             </div>
         </div>
+        <object class="divider bg-div" data={{ url_for('static', filename='Image/wave-2.svg') }}></object>
     {% endif %}
 {% endblock content %}

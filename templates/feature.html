@@ -22,5 +22,9 @@
             </div>
         </div>
     </div>
+    <div class="modify-container-button">
+        <button class="card-btn" onclick="window.location.href='{{ url_for('search_similar', image_name=id, collection=collection) }}';">Similar to this</button>
+    </div>
+
     <object class="divider" data={{ url_for('static', filename='Image/wave-2.svg') }}></object>
 {% endblock %}

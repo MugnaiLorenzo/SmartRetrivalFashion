@@ -70,6 +70,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript">
+    $('#image').change(function () {
+        {#var i = $(this).prev('label').clone();#}
+        var form = document.getElementById('form_add_collection');
+        var selectList = document.getElementById("rep");
+        var file = $('#image')[0].files;
+        var option = document.createElement("option");
+        option.value = "None";
+        option.text = "None";
+        selectList.appendChild(option);
+        for (let i = 0; i < file.length; i++) {
+            console.log(file[i].name)
+            var option = document.createElement("option");
+            option.value = file[i].name;
+            option.text = file[i].name;
+            selectList.appendChild(option);
+        }
+        document.getElementById("select_conteiner").style.display = "block";
+    });
+
     function loading() {
         document.getElementById("page").style.opacity = 0.5;
         document.getElementById("loading").style.display = "flex";
@@ -78,6 +97,7 @@
     function success() {
         document.getElementById("success").style.display = "block";
     }
+
 </script>
 </body>
 </html>

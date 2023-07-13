@@ -75,6 +75,13 @@
     margin: 10px;
 }
 
+#rep {
+    height: 45px;
+    width: 400px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
 .disp-flex label {
     margin: 10px;
     color: white;
@@ -87,6 +94,11 @@
     align-items: center;
 }
 
+#select_conteiner {
+    display: none;
+}
+
+
 @media only screen and (max-width: 467px) {
     .sub-title-add {
         font-size: 20px;
@@ -96,10 +108,20 @@
         height: 45px;
         width: 300px;
     }
+
+    #rep {
+        height: 45px;
+        width: 300px;
+    }
 }
 
 @media only screen and (max-width: 374px) {
     .disp-flex form input {
+        height: 45px;
+        width: 200px;
+    }
+
+    #rep {
         height: 45px;
         width: 200px;
     }

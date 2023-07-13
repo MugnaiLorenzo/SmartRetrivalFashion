@@ -50,7 +50,10 @@ def update_chroma():
     f = open(dataset_root / 'dataset.json')
     data = json.load(f)
     for i in data:
-        collection = chroma_client.create_collection(name=i['name'])
+        dict = {
+            "representative": i["representative"]
+        }
+        collection = chroma_client.create_collection(name=i['name'], metadata=dict)
         s = str(server_base_path) + "/" + i['metadata_path']
         f = open(s, encoding="utf8")
         d = json.load(f)
@@ -148,6 +151,16 @@ def setParam(image_name: str, collection: int):
     return param
 
 
+def get_representative_image(col):
+    if not col.metadata["representative"]=="":
+        rep = col.metadata["representative"]
+    else:
+        n_col = col.count()
+        r = random.sample(range(n_col), 1)
+        rep = col.peek(limit=n_col)['metadatas'][r[0]]['article_id']
+    return rep
+
+
 def get_collection_for_modify():
     cs = []
     i = 0
@@ -156,9 +169,7 @@ def get_collection_for_modify():
         row = []
         row.append(col.name)
         row.append(i)
-        n_col = col.count()
-        r = random.sample(range(n_col), 1)
-        row.append(col.peek(limit=n_col)['metadatas'][r[0]]['article_id'])
+        row.append(get_representative_image(col))
         cs.append(row)
     return cs
 
@@ -172,6 +183,7 @@ def get_image_from_collection(id: int):
 
 def retrival_from_text(text: str, col_id: str):
     im = []
+    n_results = os.getenv('N_OF_RESULTS')
     if col_id == "all":
         index = 0
         for collection in chroma_client.list_collections():
@@ -179,7 +191,7 @@ def retrival_from_text(text: str, col_id: str):
             t = []
             t.append(text)
             text_vector = fclip.encode_text(t, batch_size=8)
-            r = collection.query(query_embeddings=text_vector.tolist(), n_results=10)
+            r = collection.query(query_embeddings=text_vector.tolist(), n_results=int(n_results))
             row = []
             row.append(index)
             row.append(r['ids'][0])
@@ -190,7 +202,7 @@ def retrival_from_text(text: str, col_id: str):
         t = []
         t.append(text)
         text_vector = fclip.encode_text(t, batch_size=8)
-        r = collection.query(query_embeddings=text_vector.tolist(), n_results=10)
+        r = collection.query(query_embeddings=text_vector.tolist(), n_results=int(n_results))
         row = []
         row.append(col_id)
         row.append(r['ids'][0])
@@ -201,6 +213,7 @@ def retrival_from_text(text: str, col_id: str):
 
 def get_label_from_image(url: str, col_id: str):
     im = []
+    n_results = os.getenv('N_OF_RESULTS')
     if col_id == "all":
         index = 0
         for collection in chroma_client.list_collections():
@@ -208,7 +221,7 @@ def get_label_from_image(url: str, col_id: str):
             t = []
             t.append(url)
             image_vector = fclip.encode_images(t, batch_size=8)
-            r = collection.query(query_embeddings=image_vector.tolist(), n_results=10)
+            r = collection.query(query_embeddings=image_vector.tolist(), n_results=int(n_results))
             row = []
             row.append(index)
             row.append(r['ids'][0])
@@ -219,7 +232,7 @@ def get_label_from_image(url: str, col_id: str):
         t = []
         t.append(url)
         image_vector = fclip.encode_images(t, batch_size=8)
-        r = collection.query(query_embeddings=image_vector.tolist(), n_results=10)
+        r = collection.query(query_embeddings=image_vector.tolist(), n_results=int(n_results))
         row = []
         row.append(col_id)
         row.append(r['ids'][0])
@@ -242,7 +255,12 @@ def embedding_image(image_list, path):
         pickle.dump(images_embedded, f)
 
 
-def set_dataset_json(name):
+def set_dataset_json(name, rep):
+    if rep=="None":
+        rep = ""
+    else:
+        rep = rep.split(".")
+        rep = rep[0]
     f = open(dataset_root / 'dataset.json')
     data = json.load(f)
     f.close()
@@ -259,7 +277,8 @@ def set_dataset_json(name):
         "image_path": str(image_path),
         "metadata_path": str(json_path),
         "fclip_path": str(fclip_path_url),
-        "name": name
+        "name": name,
+        "representative": rep
     }
     data.append(row)
     with open(dataset_root / 'dataset.json', 'w') as outfile:

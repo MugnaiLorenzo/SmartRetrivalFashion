@@ -42,7 +42,17 @@ def search():
         else:
             img = PIL.Image.open(image)
             imgs = get_label_from_image(img, collection)
-            return render_template('result.html', imgs=imgs, search=search, cols=get_collections_name())
+            return render_template('result.html', imgs=imgs, search="", cols=get_collections_name())
+
+
+@app.route('/search_similar/<string:image_name>/<int:collection>')
+def search_similar(image_name: str, collection: str):
+    if not is_load():
+        load()
+    path_image = str(image_root) + "/" + "collection_" + str(collection) + "/" + image_name + ".jpg"
+    img = PIL.Image.open(path_image)
+    imgs = get_label_from_image(img, "all")
+    return render_template('result.html', imgs=imgs, search="", cols=get_collections_name())
 
 
 @app.route('/get_image/<string:image_name>/<int:collection>')
@@ -80,12 +90,14 @@ def add():
 def add_post():
     global i
     global col_name
+    global rep
     names = []
     images = []
     len = 0
     if request.method == 'POST':
         col_name = request.form['name']
         i = request.files.getlist("image")
+        rep = request.form['rep']
         for j in i:
             len = len + 1
             names.append(j.filename)
@@ -99,6 +111,8 @@ def add_post():
 def modify():
     if not is_load():
         load()
+    if not data_utilis.is_load() or data_utilis.get_n_collection() == 0:
+        update_chroma()
     cs = get_collection_for_modify()
     return render_template('modify.html', active="Modify", collections=cs, cols=get_collections_name())
 
@@ -163,7 +177,7 @@ def load_collection():
         json_path = str(data_utilis.metadata_path) + "/collection_" + str(n) + ".json"
         with open(json_path, 'w') as outfile:
             json.dump(par, outfile)
-        fclip_path = data_utilis.set_dataset_json(c_name)
+        fclip_path = data_utilis.set_dataset_json(c_name, rep)
         data_utilis.embedding_image(images, fclip_path)
     update_chroma()
     return redirect(url_for('home'))
@@ -269,6 +283,5 @@ def delete_image(col, image):
     update_chroma()
     return redirect(url_for('collection', col=col))
 
-
 # if __name__ == '__main__':
-    # app.run()
+# app.run()
