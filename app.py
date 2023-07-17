@@ -45,13 +45,13 @@ def search():
             return render_template('result.html', imgs=imgs, search="", cols=get_collections_name())
 
 
-@app.route('/search_similar/<string:image_name>/<int:collection>')
-def search_similar(image_name: str, collection: str):
+@app.route('/search_similar/<string:image_name>/<int:collection>/<par>')
+def search_similar(image_name: str, collection: str, par):
     if not is_load():
         load()
     path_image = str(image_root) + "/" + "collection_" + str(collection) + "/" + image_name + ".jpg"
     img = PIL.Image.open(path_image)
-    imgs = get_label_from_image(img, "all")
+    imgs = get_label_from_image(img, par)
     return render_template('result.html', imgs=imgs, search="", cols=get_collections_name())
 
 
@@ -78,7 +78,7 @@ def char_image(image_name: str, collection: str):
         load()
     param = setParam(image_name, int(collection))
     return render_template('feature.html', id=image_name, collection=collection, param=param,
-                           cols=get_collections_name())
+                           cols=get_collections_name(), search_similar=True)
 
 
 @app.route('/add/')
