@@ -37,7 +37,7 @@ def search():
         collection = request.form['collection']
         image = request.files['image']
         if not search == "":
-            imgs = retrival_from_text(search, collection)
+            imgs = retrieval_from_text(search, collection)
             return render_template('result.html', imgs=imgs, search=search, cols=get_collections_name())
         else:
             img = PIL.Image.open(image)

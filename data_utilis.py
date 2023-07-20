@@ -181,7 +181,7 @@ def get_image_from_collection(id: int):
     return peek, n_col, col.name
 
 
-def retrival_from_text(text: str, col_id: str):
+def retrieval_from_text(text: str, col_id: str):
     im = []
     n_results = os.getenv('N_OF_RESULTS')
     if col_id == "all":
